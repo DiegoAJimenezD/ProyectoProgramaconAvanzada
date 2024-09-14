@@ -1,16 +1,19 @@
 package co.edu.uniquindio.unieventos.test;
 
-import co.edu.uniquindio.unieventos.modelo.*;
+import co.edu.uniquindio.unieventos.modelo.EstadoEvento;
+import co.edu.uniquindio.unieventos.modelo.Evento;
+import co.edu.uniquindio.unieventos.modelo.Localidad;
+import co.edu.uniquindio.unieventos.modelo.TipoEvento;
 import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class EventoTest {
@@ -29,6 +32,20 @@ public class EventoTest {
                 .imagenLocalidades("eventos/detalle/get-up-septiembre-2024/840101319799")
                 .tipo(TipoEvento.CONCIERTO)
                 .fecha(LocalDateTime.parse("06-12-2024"))
+                .localidades(
+                        Arrays.asList(
+                                Localidad.builder()
+                                        .capacidadMaxima(100)
+                                        .nombre("VIP")
+                                        .precio(1800000)
+                                        .build(),
+                                Localidad.builder()
+                                        .capacidadMaxima(500)
+                                        .nombre("General")
+                                        .precio(900000)
+                                        .build()
+                        )
+                )
                 .ciudad("Armenia").build();
 
         //Guardamos el evento en la base de datos
@@ -55,4 +72,31 @@ public class EventoTest {
         assertEquals("concierto", eventoActualizado.getNombre());
     }
 
+    @Test
+    public void listarTodosTest(){
+        //Obtenemos la lista de todos los eventos (por ahora solo tenemos 1)
+        List<Evento> lista = eventoRepo.findAll();
+
+
+        //Imprimimos los eventos, se hace uso de una función lambda
+        lista.forEach(System.out::println);
+
+
+        //Verificamos que solo exista un evento
+        assertEquals(1, lista.size());
+    }
+
+    @Test
+    public void eliminarTest(){
+        //Borramos el evento con el id XXXXXXX
+        eventoRepo.deleteById("XXXXXXX");
+
+
+        //Obtenemos el evento con el id XXXXXXX
+        Evento evento = eventoRepo.findById("XXXXXXX").orElse(null);
+
+
+        //Verificamos que lel evento no exista (sea null) ya que fue eliminado
+        assertNull(evento);
+    }
 }

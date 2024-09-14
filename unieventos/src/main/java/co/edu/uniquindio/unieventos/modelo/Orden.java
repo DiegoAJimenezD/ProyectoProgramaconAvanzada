@@ -5,7 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Document("ordenes")
@@ -13,6 +13,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
+@AllArgsConstructor
+@Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Orden {
 
@@ -21,7 +23,7 @@ public class Orden {
     private String id;
 
     private ObjectId idCliente;
-    private LocalDate fecha;
+    private LocalDateTime fecha;
     private String codigoPasarela;
     private List<DetalleOrden> items;
     private Pago pago;

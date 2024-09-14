@@ -1,9 +1,12 @@
 package co.edu.uniquindio.unieventos.modelo;
 
-import lombok.EqualsAndHashCode;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 
+
+@AllArgsConstructor
+@Builder
 public class DetalleCarrito {
 
     private int cantidad;
