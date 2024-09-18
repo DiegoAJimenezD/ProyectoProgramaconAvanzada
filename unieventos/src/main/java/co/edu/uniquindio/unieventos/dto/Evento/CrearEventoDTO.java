@@ -9,7 +9,7 @@ public record CrearEventoDTO(
         LocalDateTime fecha,
         String categoria,
         String direccion,
-        String precioGeneral,
-        String precioVIP
+        float precioGeneral,
+        float precioVIP
 ) {
 }
