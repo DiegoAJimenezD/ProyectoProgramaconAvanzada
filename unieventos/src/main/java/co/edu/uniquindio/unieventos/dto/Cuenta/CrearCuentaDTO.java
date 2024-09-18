@@ -4,6 +4,8 @@ public record CrearCuentaDTO(
         String cedula,
         String nombre,
         String telefono,
-        String direccion) {
+        String direccion,
+        String urlFotoPerfil
+        ) {
 
 }
