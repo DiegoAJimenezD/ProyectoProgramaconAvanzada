@@ -37,7 +37,6 @@ public class EmailServicioImpl implements EmailServicio {
 //Para enviar correos, poner este metodo
             //emailServicio.enviarCorreo( new EmailDTO("Asunto", "Cuerpo mensaje", "Correo destino") );
 
-            
             mailer.sendMail(email);
         }
 
