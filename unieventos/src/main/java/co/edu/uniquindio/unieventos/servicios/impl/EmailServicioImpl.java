@@ -1,6 +1,6 @@
 package co.edu.uniquindio.unieventos.servicios.impl;
 
-import co.edu.uniquindio.unieventos.dto.EmailDTO;
+import co.edu.uniquindio.unieventos.dto.Email.EmailDTO;
 import co.edu.uniquindio.unieventos.servicios.interfaces.EmailServicio;
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
