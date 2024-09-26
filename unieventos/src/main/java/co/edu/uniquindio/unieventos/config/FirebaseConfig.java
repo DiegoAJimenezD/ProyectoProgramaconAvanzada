@@ -22,7 +22,7 @@ public class FirebaseConfig {
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .setStorageBucket("NOMBRE_BUCKET")
+                .setStorageBucket("unieventos-61dca.appspot.com ")
                 .build();
 
 
