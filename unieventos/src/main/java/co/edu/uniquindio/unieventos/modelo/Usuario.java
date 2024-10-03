@@ -14,13 +14,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Usuario {
 
-    @Id
-    @EqualsAndHashCode.Include
-    private String id;
-
     private String cedula;
     private String nombre;
     private String telefono;
     private String direccion;
-    private String urlFotoPerfil;
 }
