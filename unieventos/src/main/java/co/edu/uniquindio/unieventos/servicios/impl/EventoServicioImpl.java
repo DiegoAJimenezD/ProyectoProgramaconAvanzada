@@ -1,15 +1,15 @@
 package co.edu.uniquindio.unieventos.servicios.impl;
 
-import co.edu.uniquindio.unieventos.dto.Cupon.ItemCuponDTO;
 import co.edu.uniquindio.unieventos.dto.Evento.*;
-import co.edu.uniquindio.unieventos.modelo.*;
+import co.edu.uniquindio.unieventos.modelo.EstadoEvento;
+import co.edu.uniquindio.unieventos.modelo.Evento;
+import co.edu.uniquindio.unieventos.modelo.TipoEvento;
 import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.EventoServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +28,8 @@ public class EventoServicioImpl implements EventoServicio {
         nuevoEvento.setLocalidades(null);
         nuevoEvento.setCiudad(crearEventoDTO.ciudad());
         nuevoEvento.setFecha(crearEventoDTO.fecha());
-        nuevoEvento.setDireccion(crearEventoDTO.direccion());
-        // Falta Lugar, categoria, precioGeneral, precio VIP
+        nuevoEvento.setTipo(TipoEvento.valueOf(crearEventoDTO.tipoEvento()));
+        // Falta Lugar, precioGeneral, precio VIP
 
         // Guardamos el nuevo evento en la base de datos
         Evento eventoGuardado = eventoRepo.save(nuevoEvento);
@@ -47,7 +47,9 @@ public class EventoServicioImpl implements EventoServicio {
             eventoModificado.setCiudad(editarEventoDTO.ciudad());
             eventoModificado.setFecha(editarEventoDTO.fecha());
             eventoModificado.setDireccion(editarEventoDTO.direccion());
-            // Falta Lugar, categoria, precioGeneral, precio VIP
+            eventoModificado.setTipo(TipoEvento.valueOf(editarEventoDTO.tipoEvento()));
+
+            // Falta Lugar, , precioGeneral, precio VIP
 
             // Guardamos los cambios en el evento
             eventoRepo.save(eventoModificado);
@@ -80,6 +82,7 @@ public class EventoServicioImpl implements EventoServicio {
             return new InformacionEventoDTO(
                     evento.getId(),
                     evento.getNombre(),
+                    evento.getTipo().toString(),
                     evento.getCiudad(),
                     evento.getFecha(),
                     evento.getDireccion(),
@@ -100,6 +103,7 @@ public class EventoServicioImpl implements EventoServicio {
             items.add(new ItemEventoDTO(
                     evento.getId(),
                     evento.getNombre(),
+                    evento.getTipo().toString(),
                     evento.getCiudad(),
                     evento.getFecha(),
                     evento.getDireccion(),
@@ -119,6 +123,7 @@ public class EventoServicioImpl implements EventoServicio {
             items.add(new ItemEventoDTO(
                     evento.getId(),
                     evento.getNombre(),
+                    evento.getTipo().toString(),
                     evento.getCiudad(),
                     evento.getFecha(),
                     evento.getDireccion(),
