@@ -3,19 +3,11 @@ package co.edu.uniquindio.unieventos.servicios.impl;
 import co.edu.uniquindio.unieventos.dto.Orden.CrearOrdenDTO;
 import co.edu.uniquindio.unieventos.dto.Orden.EditarOrdenDTO;
 import co.edu.uniquindio.unieventos.dto.Orden.InformacionOrdenDTO;
-import co.edu.uniquindio.unieventos.modelo.DetalleOrden;
-import co.edu.uniquindio.unieventos.modelo.Evento;
-import co.edu.uniquindio.unieventos.modelo.Localidad;
 import co.edu.uniquindio.unieventos.modelo.Orden;
 import co.edu.uniquindio.unieventos.servicios.interfaces.OrdenServicio;
-import com.mercadopago.MercadoPagoConfig;
-import com.mercadopago.client.preference.PreferenceItemRequest;
-import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.resources.preference.Preference;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Service
