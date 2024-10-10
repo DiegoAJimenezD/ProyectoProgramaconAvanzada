@@ -29,15 +29,15 @@ public class CarritoTest {
                                 DetalleCarrito.builder()
                                         .cantidad(2)
                                         .nombreLocalidad("VIP")
-                                        .idEvento(new ObjectId("XXXX"))
+                                        .idEvento("XXXX")
                                         .build(),
                                 DetalleCarrito.builder()
                                         .cantidad(5)
                                         .nombreLocalidad("General")
-                                        .idEvento(new ObjectId("XXXXX"))
+                                        .idEvento("XXXXX")
                                         .build()
                         )
-                ).idUsuario(new ObjectId("XXXXXXXXXX")).build();
+                ).idUsuario("XXXXXXXXXX").build();
 
         //Guardamos el carrito en la base de datos
         Carrito carritoCreado = carritoRepo.save(carrito);
@@ -51,7 +51,7 @@ public class CarritoTest {
         //Obtenemos el carrito con el idCarrito XXXXXXX
         Carrito carrito = carritoRepo.findById("XXXXXXX").orElseThrow();
         //Modificar el enombre del carrito
-        carrito.setIdUsuario(new ObjectId("Ppo"));
+        carrito.setIdUsuario("Ppo");
 
         //Guardamos el carrito
         carritoRepo.save(carrito);
