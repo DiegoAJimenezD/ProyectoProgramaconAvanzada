@@ -1,6 +1,6 @@
 package co.edu.uniquindio.unieventos.servicios.impl;
 
-import co.edu.uniquindio.unieventos.servicios.interfaces.ImagenesServicio;
+import co.edu.uniquindio.unieventos.servicios.interfaces.ImagenServicio;
 import com.google.cloud.storage.*;
 import com.google.firebase.cloud.StorageClient;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 
 @Service
-public class ImagenesServicioImpl implements ImagenesServicio{
+public class ImagenesServicioImpl implements ImagenServicio {
 
 
     @Override
