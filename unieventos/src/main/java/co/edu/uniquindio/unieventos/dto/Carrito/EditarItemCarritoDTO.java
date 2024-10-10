@@ -1,4 +1,8 @@
 package co.edu.uniquindio.unieventos.dto.Carrito;
 
-public class EditarItemCarritoDTO {
+public record EditarItemCarritoDTO(
+        String idEvento,
+        String localidad,
+        int cantidad
+) {
 }

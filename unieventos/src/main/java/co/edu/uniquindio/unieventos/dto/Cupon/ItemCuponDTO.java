@@ -1,4 +1,6 @@
 package co.edu.uniquindio.unieventos.dto.Cupon;
 
-public class ItemCuponDTO {
+public record ItemCuponDTO (
+
+) {
 }

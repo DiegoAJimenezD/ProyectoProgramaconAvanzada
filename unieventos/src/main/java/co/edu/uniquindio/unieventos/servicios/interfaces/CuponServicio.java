@@ -1,6 +1,5 @@
 package co.edu.uniquindio.unieventos.servicios.interfaces;
 
-import co.edu.uniquindio.unieventos.dto.Cuenta.*;
 import co.edu.uniquindio.unieventos.dto.Cupon.*;
 
 import java.util.List;

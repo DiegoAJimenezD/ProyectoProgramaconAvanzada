@@ -1,4 +1,6 @@
 package co.edu.uniquindio.unieventos.dto.Carrito;
 
-public class ItemCarritoDTO {
+public record  ItemCarritoDTO(
+
+) {
 }

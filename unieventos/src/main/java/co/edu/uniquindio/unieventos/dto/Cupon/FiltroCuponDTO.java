@@ -1,4 +1,10 @@
 package co.edu.uniquindio.unieventos.dto.Cupon;
 
-public class FiltroCuponDTO {
+import java.time.LocalDateTime;
+
+public record FiltroCuponDTO (
+        String codigo,
+        int estadoCupon,
+        String nombre
+){
 }

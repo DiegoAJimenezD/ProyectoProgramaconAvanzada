@@ -1,4 +1,13 @@
 package co.edu.uniquindio.unieventos.dto.Cupon;
 
-public class CrearCuponDTO {
+import java.time.LocalDateTime;
+
+public record CrearCuponDTO (
+        float descuento,
+        LocalDateTime fechaVencimiento,
+        String codigo,
+        int estadoCupon,
+        int tipoCupon,
+        String nombre
+){
 }
