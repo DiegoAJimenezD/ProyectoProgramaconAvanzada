@@ -3,8 +3,6 @@ package co.edu.uniquindio.unieventos.dto.Cuenta;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.URL;
-
 
 public record CrearCuentaDTO(
         @NotBlank @Length(max = 10) String cedula,

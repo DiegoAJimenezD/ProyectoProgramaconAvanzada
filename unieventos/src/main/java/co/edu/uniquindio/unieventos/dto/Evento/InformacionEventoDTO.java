@@ -5,10 +5,8 @@ import java.time.LocalDateTime;
 public record InformacionEventoDTO(
         String id,
         String nombre,
-        String lugar,
         String ciudad,
         LocalDateTime fecha,
-        String categoria,
         String direccion,
         String urlImagenPoster
 ) {

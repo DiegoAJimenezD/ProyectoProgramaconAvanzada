@@ -14,11 +14,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailServicioImpl implements EmailServicio {
 
-
     @Override
     @Async
     public void enviarCorreo(EmailDTO emailDTO) throws Exception {
-
 
         Email email = EmailBuilder.startingBlank()
                 .from("SMTP_USERNAME")
@@ -27,14 +25,13 @@ public class EmailServicioImpl implements EmailServicio {
                 .withPlainText(emailDTO.cuerpo())
                 .buildEmail();
 
-
         try (Mailer mailer = MailerBuilder
                 .withSMTPServer("smtp.gmail.com", 587, "ragnar07kxl@gmail.com", "akyg ztra futh pqlq")
                 .withTransportStrategy(TransportStrategy.SMTP_TLS)
                 .withDebugLogging(true)
                 .buildMailer()) {
 
-//Para enviar correos, poner este metodo
+            //Para enviar correos, poner este metodo
             //emailServicio.enviarCorreo( new EmailDTO("Asunto", "Cuerpo mensaje", "Correo destino") );
 
             mailer.sendMail(email);

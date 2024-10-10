@@ -1,11 +1,11 @@
 package co.edu.uniquindio.unieventos.modelo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
+@Getter
+@Setter
 @AllArgsConstructor
 @Builder
 public class DetalleOrden {
@@ -15,7 +15,7 @@ public class DetalleOrden {
     private String id;
 
     private ObjectId idEvento;
-    private float precio ;
+    private float precio;
     private String nombreLocalidad;
     private int cantidad;
 }

@@ -21,7 +21,7 @@ public class EventoTest {
     private EventoRepo eventoRepo;
 
     @Test
-    public void registrarTest(){
+    public void registrarTest() {
         //Creamos el evento con sus propiedades
         Evento evento = Evento.builder()
                 .imagenPortada("/eventos/detalle/get-up-septiembre-2024/840101319799")
@@ -56,16 +56,16 @@ public class EventoTest {
     }
 
     @Test
-    public void actualizarTest(){
-        //Obtenemos el evento con el id XXXXXXX
+    public void actualizarTest() {
+        //Obtenemos el evento con el idCarrito XXXXXXX
         Evento evento = eventoRepo.findById("XXXXXXX").orElseThrow();
         //Modificar el enombre del evento
         evento.setNombre("concierto");
 
         //Guardamos el evento
-        eventoRepo.save( evento );
+        eventoRepo.save(evento);
 
-        //Obtenemos el evento con el id XXXXXXX nuevamente
+        //Obtenemos el evento con el idCarrito XXXXXXX nuevamente
         Evento eventoActualizado = eventoRepo.findById("XXXXXXX").orElseThrow();
 
         //Verificamos que el nombre se haya actualizado
@@ -73,7 +73,7 @@ public class EventoTest {
     }
 
     @Test
-    public void listarTodosTest(){
+    public void listarTodosTest() {
         //Obtenemos la lista de todos los eventos (por ahora solo tenemos 1)
         List<Evento> lista = eventoRepo.findAll();
 
@@ -87,12 +87,12 @@ public class EventoTest {
     }
 
     @Test
-    public void eliminarTest(){
-        //Borramos el evento con el id XXXXXXX
+    public void eliminarTest() {
+        //Borramos el evento con el idCarrito XXXXXXX
         eventoRepo.deleteById("XXXXXXX");
 
 
-        //Obtenemos el evento con el id XXXXXXX
+        //Obtenemos el evento con el idCarrito XXXXXXX
         Evento evento = eventoRepo.findById("XXXXXXX").orElse(null);
 
 
