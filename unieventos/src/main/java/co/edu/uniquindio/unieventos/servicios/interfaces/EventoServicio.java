@@ -5,6 +5,7 @@ import co.edu.uniquindio.unieventos.dto.Evento.*;
 import java.util.List;
 
 public interface EventoServicio {
+
     String crearEvento(CrearEventoDTO crearEventoDTO) throws Exception;
 
     void editarEvento(EditarEventoDTO editarEventoDTO) throws Exception;

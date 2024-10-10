@@ -20,23 +20,23 @@ public class CarritoTest {
     private CarritoRepo carritoRepo;
 
     @Test
-    public void registrarTest(){
+    public void registrarTest() {
         //Creamos el evento con sus propiedades
         Carrito carrito = Carrito.builder()
                 .fecha(LocalDateTime.parse("06-12-2024"))
                 .items(
                         Arrays.asList(
-                                        DetalleCarrito.builder()
-                                                .cantidad(2)
-                                                .nombreLocalidad("VIP")
-                                                .idEvento(new ObjectId("XXXX"))
-                                                .build(),
-                                        DetalleCarrito.builder()
-                                                .cantidad(5)
-                                                .nombreLocalidad("General")
-                                                .idEvento(new ObjectId("XXXXX"))
-                                                .build()
-                                )
+                                DetalleCarrito.builder()
+                                        .cantidad(2)
+                                        .nombreLocalidad("VIP")
+                                        .idEvento(new ObjectId("XXXX"))
+                                        .build(),
+                                DetalleCarrito.builder()
+                                        .cantidad(5)
+                                        .nombreLocalidad("General")
+                                        .idEvento(new ObjectId("XXXXX"))
+                                        .build()
+                        )
                 ).idUsuario(new ObjectId("XXXXXXXXXX")).build();
 
         //Guardamos el carrito en la base de datos
@@ -47,16 +47,16 @@ public class CarritoTest {
     }
 
     @Test
-    public void actualizarTest(){
-        //Obtenemos el carrito con el id XXXXXXX
+    public void actualizarTest() {
+        //Obtenemos el carrito con el idCarrito XXXXXXX
         Carrito carrito = carritoRepo.findById("XXXXXXX").orElseThrow();
         //Modificar el enombre del carrito
         carrito.setIdUsuario(new ObjectId("Ppo"));
 
         //Guardamos el carrito
-        carritoRepo.save( carrito );
+        carritoRepo.save(carrito);
 
-        //Obtenemos el carrito con el id XXXXXXX nuevamente
+        //Obtenemos el carrito con el idCarrito XXXXXXX nuevamente
         Carrito carritoActualizado = carritoRepo.findById("XXXXXXX").orElseThrow();
 
         //Verificamos que el nombre se haya actualizado
@@ -64,7 +64,7 @@ public class CarritoTest {
     }
 
     @Test
-    public void listarTodosTest(){
+    public void listarTodosTest() {
         //Obtenemos la lista de todos los carritos (por ahora solo tenemos 1)
         List<Carrito> lista = carritoRepo.findAll();
 
@@ -78,12 +78,12 @@ public class CarritoTest {
     }
 
     @Test
-    public void eliminarTest(){
-        //Borramos el carrito con el id XXXXXXX
+    public void eliminarTest() {
+        //Borramos el carrito con el idCarrito XXXXXXX
         carritoRepo.deleteById("XXXXXXX");
 
 
-        //Obtenemos el carrito con el id XXXXXXX
+        //Obtenemos el carrito con el idCarrito XXXXXXX
         Carrito carrito = carritoRepo.findById("XXXXXXX").orElse(null);
 
 

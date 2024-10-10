@@ -1,26 +1,28 @@
 package co.edu.uniquindio.unieventos.servicios.impl;
 
-import co.edu.uniquindio.unieventos.servicios.interfaces.ImagenesServicio;
-import com.google.cloud.storage.*;
+import co.edu.uniquindio.unieventos.servicios.interfaces.ImagenServicio;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Bucket;
 import com.google.firebase.cloud.StorageClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.UUID;
 
 
 @Service
-public class ImagenesServicioImpl implements ImagenesServicio{
+public class ImagenesServicioImpl implements ImagenServicio {
 
 
     @Override
-    public String subirImagen(MultipartFile multipartFile) throws Exception{
+    public String subirImagen(MultipartFile multipartFile) throws Exception {
         Bucket bucket = StorageClient.getInstance().bucket();
 
 
-        String fileName = String.format( "%s-%s", UUID.randomUUID().toString(), multipartFile.getOriginalFilename() );
+        String fileName = String.format("%s-%s", UUID.randomUUID().toString(), multipartFile.getOriginalFilename());
 
 
-        Blob blob = bucket.create( fileName, multipartFile.getInputStream(), multipartFile.getContentType() );
+        Blob blob = bucket.create(fileName, multipartFile.getInputStream(), multipartFile.getContentType());
 
 
         return String.format(
@@ -32,7 +34,7 @@ public class ImagenesServicioImpl implements ImagenesServicio{
 
 
     @Override
-    public void eliminarImagen(String nombreImagen) throws Exception{
+    public void eliminarImagen(String nombreImagen) throws Exception {
         Bucket bucket = StorageClient.getInstance().bucket();
         Blob blob = bucket.get(nombreImagen);
         blob.delete();

@@ -1,6 +1,18 @@
 package co.edu.uniquindio.unieventos.servicios.impl;
 
-public class OrdenServicioImpl {
+import co.edu.uniquindio.unieventos.dto.Orden.CrearOrdenDTO;
+import co.edu.uniquindio.unieventos.dto.Orden.EditarOrdenDTO;
+import co.edu.uniquindio.unieventos.dto.Orden.InformacionOrdenDTO;
+import co.edu.uniquindio.unieventos.modelo.Orden;
+import co.edu.uniquindio.unieventos.servicios.interfaces.OrdenServicio;
+import com.mercadopago.resources.preference.Preference;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+
+@Service
+public class OrdenServicioImpl implements OrdenServicio {
+
     @Override
     public Preference realizarPago(String idOrden) throws Exception {
 
@@ -11,7 +23,7 @@ public class OrdenServicioImpl {
 
 
         // Recorrer los items de la orden y crea los ítems de la pasarela
-        for(DetalleOrden item : ordenGuardada.getDetalle()){
+        for (DetalleOrden item : ordenGuardada.getDetalle()) {
 
 
             // Obtener el evento y la localidad del ítem
@@ -63,11 +75,36 @@ public class OrdenServicioImpl {
 
 
         // Guardar el código de la pasarela en la orden
-        ordenGuardada.setCodigoPasarela( preference.getId() );
+        ordenGuardada.setCodigoPasarela(preference.getId());
         ordenRepo.save(ordenGuardada);
 
 
         return preference;
+    }
+
+    @Override
+    public void recibirNotificacionMercadoPago(Map<String, Object> request) {
+
+    }
+
+    @Override
+    public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
+        return "";
+    }
+
+    @Override
+    public InformacionOrdenDTO obtenerInformacionOrden(String idOrden) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void editarOrden(EditarOrdenDTO editarOrdenDTO) throws Exception {
+
+    }
+
+    @Override
+    public void cancelarOrden(String idOrden) throws Exception {
+
     }
 
 }

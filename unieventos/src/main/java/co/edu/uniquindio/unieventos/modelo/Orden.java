@@ -23,6 +23,7 @@ public class Orden {
     private String id;
 
     private ObjectId idCliente;
+    private EstadoOrden estado;
     private LocalDateTime fecha;
     private String codigoPasarela;
     private List<DetalleOrden> items;
