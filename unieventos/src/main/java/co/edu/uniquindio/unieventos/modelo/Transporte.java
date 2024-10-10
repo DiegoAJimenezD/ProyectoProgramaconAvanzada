@@ -4,25 +4,24 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-@Document("carritos")
+@Document("transporte")
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Builder
 @AllArgsConstructor
-public class Carrito {
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
+public class Transporte {
 
     @Id
     @EqualsAndHashCode.Include
     private String id;
 
-    private LocalDateTime fecha;
-    private List<DetalleCarrito> items;
-    private String idUsuario;
-    private Transporte transporte;
+    private TipoViaje tipoViaje;
+    private int numParajeros;
+    private double precio;
+    private String descripcion;
+
 }
