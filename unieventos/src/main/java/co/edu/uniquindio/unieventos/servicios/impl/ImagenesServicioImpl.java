@@ -15,14 +15,14 @@ public class ImagenesServicioImpl implements ImagenServicio {
 
 
     @Override
-    public String subirImagen(MultipartFile multipartFile) throws Exception{
+    public String subirImagen(MultipartFile multipartFile) throws Exception {
         Bucket bucket = StorageClient.getInstance().bucket();
 
 
-        String fileName = String.format( "%s-%s", UUID.randomUUID().toString(), multipartFile.getOriginalFilename() );
+        String fileName = String.format("%s-%s", UUID.randomUUID().toString(), multipartFile.getOriginalFilename());
 
 
-        Blob blob = bucket.create( fileName, multipartFile.getInputStream(), multipartFile.getContentType() );
+        Blob blob = bucket.create(fileName, multipartFile.getInputStream(), multipartFile.getContentType());
 
 
         return String.format(
@@ -34,7 +34,7 @@ public class ImagenesServicioImpl implements ImagenServicio {
 
 
     @Override
-    public void eliminarImagen(String nombreImagen) throws Exception{
+    public void eliminarImagen(String nombreImagen) throws Exception {
         Bucket bucket = StorageClient.getInstance().bucket();
         Blob blob = bucket.get(nombreImagen);
         blob.delete();

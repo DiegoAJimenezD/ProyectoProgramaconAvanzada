@@ -9,6 +9,8 @@ import java.util.Optional;
 @Repository
 public interface CuentaRepo extends MongoRepository<Cuenta, String> {
     Optional<Cuenta> findByEmail(String email);
+
     Optional<Cuenta> findByCedula(String cedula);
+
     Optional<Cuenta> findById(String id);
 }

@@ -1,6 +1,5 @@
 package co.edu.uniquindio.unieventos.dto.Orden;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 

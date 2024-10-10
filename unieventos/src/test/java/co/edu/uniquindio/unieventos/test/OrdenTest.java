@@ -19,9 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OrdenTest {
     @Autowired
     private OrdenRepo ordenRepo;
-    
+
     @Test
-    public void registrarTest(){
+    public void registrarTest() {
         //Creamos la orden con sus propiedades
         Orden orden = Orden.builder()
                 .idCliente(new ObjectId("XXXXXX"))
@@ -62,16 +62,16 @@ public class OrdenTest {
     }
 
     @Test
-    public void actualizarTest(){
-        //Obtenemos la orden con el id XXXXXXX
+    public void actualizarTest() {
+        //Obtenemos la orden con el idCarrito XXXXXXX
         Orden orden = ordenRepo.findById("XXXXXXX").orElseThrow();
         //Modificar el email de la orden
         orden.setCodigoPasarela("nuevoCodigooasa");
 
         //Guardamos la orden del usuario
-        ordenRepo.save( orden );
+        ordenRepo.save(orden);
 
-        //Obtenemos la orden del usuario con el id XXXXXXX nuevamente
+        //Obtenemos la orden del usuario con el idCarrito XXXXXXX nuevamente
         Orden ordenActualizada = ordenRepo.findById("XXXXXXX").orElseThrow();
 
         //Verificamos que el email se haya actualizado
@@ -79,7 +79,7 @@ public class OrdenTest {
     }
 
     @Test
-    public void listarTodosTest(){
+    public void listarTodosTest() {
         //Obtenemos la lista de todas las ordens de los usuarios (por ahora solo tenemos 1)
         List<Orden> lista = ordenRepo.findAll();
 
@@ -93,12 +93,12 @@ public class OrdenTest {
     }
 
     @Test
-    public void eliminarTest(){
-        //Borramos la orden del usuario con el id XXXXXXX
+    public void eliminarTest() {
+        //Borramos la orden del usuario con el idCarrito XXXXXXX
         ordenRepo.deleteById("XXXXXXX");
 
 
-        //Obtenemos la orden del usuario con el id XXXXXXX
+        //Obtenemos la orden del usuario con el idCarrito XXXXXXX
         Orden orden = ordenRepo.findById("XXXXXXX").orElse(null);
 
 

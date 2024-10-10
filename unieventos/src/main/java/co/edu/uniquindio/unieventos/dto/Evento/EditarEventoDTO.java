@@ -8,6 +8,7 @@ public record EditarEventoDTO(
         LocalDateTime fecha,
         String categoria,
         String direccion,
+        String ciudad,
         float precioGeneral,
         float precioVIP
 ) {

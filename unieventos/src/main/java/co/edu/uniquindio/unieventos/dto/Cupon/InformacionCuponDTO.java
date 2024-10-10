@@ -7,8 +7,8 @@ public record InformacionCuponDTO(
         float descuento,
         LocalDateTime fechaVencimiento,
         String codigo,
-        int estadoCupon,
-        int tipoCupon,
+        String estadoCupon,
+        String tipoCupon,
         String nombre
 ) {
 

@@ -21,7 +21,7 @@ public class CuentaTest {
     private CuentaRepo cuentaRepo;
 
     @Test
-    public void registrarTest(){
+    public void registrarTest() {
         //Creamos la cuenta con sus propiedades
         Cuenta cuenta = Cuenta.builder()
                 .email("juanito@email.com")
@@ -45,16 +45,16 @@ public class CuentaTest {
     }
 
     @Test
-    public void actualizarTest(){
-        //Obtenemos la cuenta el usuario con el id XXXXXXX
+    public void actualizarTest() {
+        //Obtenemos la cuenta el usuario con el idCarrito XXXXXXX
         Cuenta cuenta = cuentaRepo.findById("XXXXXXX").orElseThrow();
         //Modificar el email de la cuenta
         cuenta.setEmail("nuevoemail@email.com");
 
         //Guardamos la cuenta del usuario
-        cuentaRepo.save( cuenta );
+        cuentaRepo.save(cuenta);
 
-        //Obtenemos la cuenta del usuario con el id XXXXXXX nuevamente
+        //Obtenemos la cuenta del usuario con el idCarrito XXXXXXX nuevamente
         Cuenta cuentaActualizada = cuentaRepo.findById("XXXXXXX").orElseThrow();
 
         //Verificamos que el email se haya actualizado
@@ -62,7 +62,7 @@ public class CuentaTest {
     }
 
     @Test
-    public void listarTodosTest(){
+    public void listarTodosTest() {
         //Obtenemos la lista de todas las cuentas de los usuarios (por ahora solo tenemos 1)
         List<Cuenta> lista = cuentaRepo.findAll();
 
@@ -76,12 +76,12 @@ public class CuentaTest {
     }
 
     @Test
-    public void eliminarTest(){
-        //Borramos la cuenta del usuario con el id XXXXXXX
+    public void eliminarTest() {
+        //Borramos la cuenta del usuario con el idCarrito XXXXXXX
         cuentaRepo.deleteById("XXXXXXX");
 
 
-        //Obtenemos la cuenta del usuario con el id XXXXXXX
+        //Obtenemos la cuenta del usuario con el idCarrito XXXXXXX
         Cuenta cuenta = cuentaRepo.findById("XXXXXXX").orElse(null);
 
 

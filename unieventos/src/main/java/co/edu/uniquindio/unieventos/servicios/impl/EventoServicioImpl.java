@@ -1,0 +1,132 @@
+package co.edu.uniquindio.unieventos.servicios.impl;
+
+import co.edu.uniquindio.unieventos.dto.Cupon.ItemCuponDTO;
+import co.edu.uniquindio.unieventos.dto.Evento.*;
+import co.edu.uniquindio.unieventos.modelo.*;
+import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
+import co.edu.uniquindio.unieventos.servicios.interfaces.EventoServicio;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class EventoServicioImpl implements EventoServicio {
+
+    private final EventoRepo eventoRepo;
+
+    @Override
+    public String crearEvento(CrearEventoDTO crearEventoDTO) throws Exception {
+        Evento nuevoEvento = new Evento();
+        nuevoEvento.setNombre(crearEventoDTO.nombre());
+        nuevoEvento.setLocalidades(null);
+        nuevoEvento.setCiudad(crearEventoDTO.ciudad());
+        nuevoEvento.setFecha(crearEventoDTO.fecha());
+        nuevoEvento.setDireccion(crearEventoDTO.direccion());
+        // Falta Lugar, categoria, precioGeneral, precio VIP
+
+        // Guardamos el nuevo evento en la base de datos
+        Evento eventoGuardado = eventoRepo.save(nuevoEvento);
+        return eventoGuardado.getId();
+    }
+
+    @Override
+    public void editarEvento(EditarEventoDTO editarEventoDTO) throws Exception {
+        Optional<Evento> optionalEvento = eventoRepo.findById(editarEventoDTO.id());
+
+        if (optionalEvento.isPresent()) {
+            Evento eventoModificado = optionalEvento.get();
+            eventoModificado.setNombre(editarEventoDTO.nombre());
+            eventoModificado.setLocalidades(null);
+            eventoModificado.setCiudad(editarEventoDTO.ciudad());
+            eventoModificado.setFecha(editarEventoDTO.fecha());
+            eventoModificado.setDireccion(editarEventoDTO.direccion());
+            // Falta Lugar, categoria, precioGeneral, precio VIP
+
+            // Guardamos los cambios en el evento
+            eventoRepo.save(eventoModificado);
+        } else {
+            throw new Exception("Evento no encontrado");
+        }
+    }
+
+    @Override
+    public void eliminarEvento(String id) throws Exception {
+        Optional<Evento> optionalEvento = eventoRepo.findById(id);
+
+        //Si no se encontró la cuenta, lanzamos una excepción
+        if (optionalEvento.isEmpty()) {
+            throw new Exception("No se encontró el evento con el id " + id);
+        }
+
+        Evento evento = optionalEvento.get();
+        evento.setEstado(EstadoEvento.INACTIVO);
+
+        eventoRepo.save(evento);
+    }
+
+    @Override
+    public InformacionEventoDTO obtenerInformacionEvento(String id) throws Exception {
+        Optional<Evento> optionalEvento = eventoRepo.findById(id);
+
+        if (optionalEvento.isPresent()) {
+            Evento evento = optionalEvento.get();
+            return new InformacionEventoDTO(
+                    evento.getId(),
+                    evento.getNombre(),
+                    evento.getCiudad(),
+                    evento.getFecha(),
+                    evento.getDireccion(),
+                    evento.getImagenPortada()
+
+            );
+        } else {
+            throw new Exception("Evento no encontrado");
+        }
+    }
+
+    @Override
+    public List<ItemEventoDTO> listarEventos() {
+        List<Evento> eventos = eventoRepo.findAll();
+        List<ItemEventoDTO> items = new ArrayList<>();
+
+        for (Evento evento : eventos) {
+            items.add(new ItemEventoDTO(
+                    evento.getId(),
+                    evento.getNombre(),
+                    evento.getCiudad(),
+                    evento.getFecha(),
+                    evento.getDireccion(),
+                    evento.getImagenPortada()
+            ));
+        }
+        return items;
+    }
+
+    @Override
+    public List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO) {
+        // Supongamos que ya existe una consulta en el repositorio para filtrar eventos
+        List<Evento> eventosFiltrados = eventoRepo.findAll();
+        List<ItemEventoDTO> items = new ArrayList<>();
+
+        for (Evento evento : eventosFiltrados) {
+            items.add(new ItemEventoDTO(
+                    evento.getId(),
+                    evento.getNombre(),
+                    evento.getCiudad(),
+                    evento.getFecha(),
+                    evento.getDireccion(),
+                    evento.getImagenPortada()
+            ));
+        }
+        return items;
+    }
+}
+
+

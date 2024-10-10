@@ -27,7 +27,7 @@ public class FirebaseConfig {
                 .build();
 
 
-        if(FirebaseApp.getApps().isEmpty()) {
+        if (FirebaseApp.getApps().isEmpty()) {
             return FirebaseApp.initializeApp(options);
         }
 
