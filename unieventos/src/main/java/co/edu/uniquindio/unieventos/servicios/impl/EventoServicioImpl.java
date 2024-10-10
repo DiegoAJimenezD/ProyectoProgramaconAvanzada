@@ -1,15 +1,14 @@
 package co.edu.uniquindio.unieventos.servicios.impl;
 
-import co.edu.uniquindio.unieventos.dto.Cupon.ItemCuponDTO;
 import co.edu.uniquindio.unieventos.dto.Evento.*;
-import co.edu.uniquindio.unieventos.modelo.*;
+import co.edu.uniquindio.unieventos.modelo.EstadoEvento;
+import co.edu.uniquindio.unieventos.modelo.Evento;
 import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.EventoServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

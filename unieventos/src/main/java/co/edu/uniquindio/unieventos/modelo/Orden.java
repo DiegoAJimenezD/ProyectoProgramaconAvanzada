@@ -1,7 +1,6 @@
 package co.edu.uniquindio.unieventos.modelo;
 
 import lombok.*;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -22,12 +21,12 @@ public class Orden {
     @EqualsAndHashCode.Include
     private String id;
 
-    private ObjectId idCliente;
+    private String idCliente;
     private EstadoOrden estado;
     private LocalDateTime fecha;
     private String codigoPasarela;
     private List<DetalleOrden> items;
     private Pago pago;
     private float total;
-    private ObjectId idCupon;
+    private String idCupon;
 }

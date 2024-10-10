@@ -1,7 +1,8 @@
 package co.edu.uniquindio.unieventos.dto.Orden;
 
 public record EditarOrdenDTO(
-        int estadoOrden,
+        String id,
+        String estadoOrden,
         String codigoPasarela
         //Pago pago
 ) {
