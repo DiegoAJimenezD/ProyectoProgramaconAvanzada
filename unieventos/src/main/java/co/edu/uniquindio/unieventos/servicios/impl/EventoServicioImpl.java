@@ -1,10 +1,8 @@
 package co.edu.uniquindio.unieventos.servicios.impl;
 
 import co.edu.uniquindio.unieventos.dto.Evento.*;
-import co.edu.uniquindio.unieventos.modelo.EstadoEvento;
+import co.edu.uniquindio.unieventos.modelo.enums.EstadoEvento;
 import co.edu.uniquindio.unieventos.modelo.Evento;
-import co.edu.uniquindio.unieventos.modelo.Localidad;
-import co.edu.uniquindio.unieventos.modelo.TipoEvento;
 import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.EventoServicio;
 import lombok.RequiredArgsConstructor;

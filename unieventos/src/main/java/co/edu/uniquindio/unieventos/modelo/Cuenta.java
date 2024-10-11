@@ -1,5 +1,7 @@
 package co.edu.uniquindio.unieventos.modelo;
 
+import co.edu.uniquindio.unieventos.modelo.enums.EstadoCuenta;
+import co.edu.uniquindio.unieventos.modelo.enums.Rol;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -2,8 +2,8 @@ package co.edu.uniquindio.unieventos.servicios.impl;
 
 import co.edu.uniquindio.unieventos.dto.Cupon.*;
 import co.edu.uniquindio.unieventos.modelo.Cupon;
-import co.edu.uniquindio.unieventos.modelo.EstadoCupon;
-import co.edu.uniquindio.unieventos.modelo.TipoCupon;
+import co.edu.uniquindio.unieventos.modelo.enums.EstadoCupon;
+import co.edu.uniquindio.unieventos.modelo.enums.TipoCupon;
 import co.edu.uniquindio.unieventos.repositorios.CuponRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.CuponServicio;
 import lombok.RequiredArgsConstructor;

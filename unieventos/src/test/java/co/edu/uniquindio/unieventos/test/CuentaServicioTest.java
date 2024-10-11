@@ -1,9 +1,8 @@
 package co.edu.uniquindio.unieventos.test;
 
-import co.edu.uniquindio.unieventos.dto.Cuenta.CrearCuentaDTO;
-import co.edu.uniquindio.unieventos.dto.Cuenta.EditarCuentaDTO;
-import co.edu.uniquindio.unieventos.dto.Cuenta.InformacionCuentaDTO;
-import co.edu.uniquindio.unieventos.dto.Cuenta.ItemCuentaDTO;
+import co.edu.uniquindio.unieventos.dto.Cuenta.LoginDTO;
+import co.edu.uniquindio.unieventos.dto.TokenDTO;
+import co.edu.uniquindio.unieventos.dto.Cuenta.*;
 import co.edu.uniquindio.unieventos.servicios.interfaces.CuentaServicio;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +84,6 @@ public class CuentaServicioTest {
         assertThrows(Exception.class, () -> cuentaServicio.obtenerInformacionCuenta(idCuenta));
     }
 
-
     @Test
     public void listarTest() {
         //Se obtiene la lista de las cuentas de los usuarios
@@ -93,6 +91,17 @@ public class CuentaServicioTest {
 
         //Se verifica que la lista no sea nula y que tenga 3 elementos (o los que hayan)
         assertEquals(3, lista.size());
+    }
+
+    @Test
+    public void IniciarSesionTest() {
+        LoginDTO loginDTO = new LoginDTO("anfoji2003@gmail.com", "123456789");
+        // Se espera que no se lance ninguna excepción
+        assertDoesNotThrow(() -> {
+            TokenDTO token = cuentaServicio.iniciarSesion(loginDTO);
+            // Se espera que el id no sea nulo
+            assertNotNull(token);
+        });
     }
 
 }
