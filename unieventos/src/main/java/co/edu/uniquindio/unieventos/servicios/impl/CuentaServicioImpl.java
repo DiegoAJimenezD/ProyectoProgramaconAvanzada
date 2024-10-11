@@ -1,19 +1,25 @@
 package co.edu.uniquindio.unieventos.servicios.impl;
 
+import co.edu.uniquindio.unieventos.config.JWTUtils;
 import co.edu.uniquindio.unieventos.dto.Cuenta.*;
 import co.edu.uniquindio.unieventos.dto.Email.EmailDTO;
+import co.edu.uniquindio.unieventos.dto.TokenDTO;
 import co.edu.uniquindio.unieventos.modelo.*;
+import co.edu.uniquindio.unieventos.modelo.enums.EstadoCuenta;
+import co.edu.uniquindio.unieventos.modelo.enums.Rol;
 import co.edu.uniquindio.unieventos.repositorios.CuentaRepo;
 import co.edu.uniquindio.unieventos.repositorios.UsuarioRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.CuentaServicio;
 import co.edu.uniquindio.unieventos.servicios.interfaces.EmailServicio;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -25,6 +31,7 @@ public class CuentaServicioImpl implements CuentaServicio {
     private final CuentaRepo cuentaRepo;
     private final UsuarioRepo usuarioRepo;
     private final EmailServicio emailServicio;
+    private final JWTUtils jwtUtils;
 
     @Override
     public String crearCuenta(CrearCuentaDTO cuenta) throws Exception {
@@ -37,7 +44,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         }
         Cuenta nuevaCuenta = new Cuenta();
         nuevaCuenta.setEmail(cuenta.email());
-        nuevaCuenta.setPassword(cuenta.password());
+        nuevaCuenta.setPassword(encriptarPassword(cuenta.password()));
         nuevaCuenta.setRol(Rol.CLIENTE);
         nuevaCuenta.setFechaRegistro(LocalDateTime.now());
         nuevaCuenta.setUsuario(new Usuario(
@@ -90,7 +97,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         cuentaModificada.getUsuario().setNombre(cuenta.nombre());
         cuentaModificada.getUsuario().setTelefono(cuenta.telefono());
         cuentaModificada.getUsuario().setDireccion(cuenta.direccion());
-        cuentaModificada.setPassword(cuenta.password());
+        cuentaModificada.setPassword(encriptarPassword(cuenta.password()));
 
         //Como el objeto cuenta ya tiene un id, el save() no crea un nuevo registro sino que actualiza el que ya existe
         cuentaRepo.save(cuentaModificada);
@@ -206,13 +213,33 @@ public class CuentaServicioImpl implements CuentaServicio {
 
     @Override
     public void cambiarPassword(CambiarPasswordDTO cambiarPasswordDTO) throws Exception {
+        Optional<Cuenta> optionalCuenta = cuentaRepo.findByEmail(cambiarPasswordDTO.email());
+        if (optionalCuenta.isEmpty()) {
+            throw new Exception("La cuenta no existe");
+        }
+        Cuenta cuentaModificada = optionalCuenta.get();
+        cuentaModificada.setPassword(encriptarPassword(cambiarPasswordDTO.passwordNueva()));
 
+        cuentaRepo.save(cuentaModificada);
     }
 
     @Override
-    public String iniciarSesion(LoginDTO loginDTO) throws Exception {
-        return "";
+    public TokenDTO iniciarSesion(LoginDTO loginDTO) throws Exception {
+        Optional<Cuenta> optionalCuenta = cuentaRepo.findByEmail(loginDTO.email());
+        if (optionalCuenta.isEmpty()) {
+            throw new Exception("La cuenta no existe");
+        }
+        Cuenta cuenta = optionalCuenta.get();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if( !passwordEncoder.matches(loginDTO.password(), cuenta.getPassword()) ) {
+            throw new Exception("La contraseña es incorrecta");
+        }
+
+        Map<String, Object> map = construirClaims(cuenta);
+        return new TokenDTO( jwtUtils.generarToken(cuenta.getEmail(), map) );
     }
+
 
     private boolean existeEmail(String email) {
         return cuentaRepo.findByEmail(email).isPresent();
@@ -222,6 +249,18 @@ public class CuentaServicioImpl implements CuentaServicio {
         return usuarioRepo.findByCedula(cedula).isPresent();
     }
 
+    private String encriptarPassword(String password){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode( password );
+    }
+
+    private Map<String, Object> construirClaims(Cuenta cuenta) {
+        return Map.of(
+                "rol", cuenta.getRol(),
+                "nombre", cuenta.getUsuario().getNombre(),
+                "id", cuenta.getId()
+        );
+    }
 }
 
 

@@ -1,8 +1,8 @@
 package co.edu.uniquindio.unieventos.test;
 
 import co.edu.uniquindio.unieventos.modelo.Cuenta;
-import co.edu.uniquindio.unieventos.modelo.EstadoCuenta;
-import co.edu.uniquindio.unieventos.modelo.Rol;
+import co.edu.uniquindio.unieventos.modelo.enums.EstadoCuenta;
+import co.edu.uniquindio.unieventos.modelo.enums.Rol;
 import co.edu.uniquindio.unieventos.modelo.Usuario;
 import co.edu.uniquindio.unieventos.repositorios.CuentaRepo;
 import org.junit.jupiter.api.Test;
