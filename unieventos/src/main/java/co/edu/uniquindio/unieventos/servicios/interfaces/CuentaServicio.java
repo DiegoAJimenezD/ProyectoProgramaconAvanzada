@@ -1,6 +1,7 @@
 package co.edu.uniquindio.unieventos.servicios.interfaces;
 
 import co.edu.uniquindio.unieventos.dto.Cuenta.*;
+import co.edu.uniquindio.unieventos.dto.TokenDTO;
 
 import java.util.List;
 
@@ -20,6 +21,6 @@ public interface CuentaServicio {
 
     void cambiarPassword(CambiarPasswordDTO cambiarPasswordDTO) throws Exception;
 
-    String iniciarSesion(LoginDTO loginDTO) throws Exception;
+    TokenDTO iniciarSesion(LoginDTO loginDTO) throws Exception;
 
 }

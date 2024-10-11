@@ -1,6 +1,6 @@
 package co.edu.uniquindio.unieventos.dto.Transporte;
 
-import co.edu.uniquindio.unieventos.modelo.TipoViaje;
+import co.edu.uniquindio.unieventos.modelo.enums.TipoViaje;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 

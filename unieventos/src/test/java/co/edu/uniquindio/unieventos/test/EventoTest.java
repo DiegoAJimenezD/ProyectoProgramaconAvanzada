@@ -1,9 +1,9 @@
 package co.edu.uniquindio.unieventos.test;
 
-import co.edu.uniquindio.unieventos.modelo.EstadoEvento;
+import co.edu.uniquindio.unieventos.modelo.enums.EstadoEvento;
 import co.edu.uniquindio.unieventos.modelo.Evento;
 import co.edu.uniquindio.unieventos.modelo.Localidad;
-import co.edu.uniquindio.unieventos.modelo.TipoEvento;
+import co.edu.uniquindio.unieventos.modelo.enums.TipoEvento;
 import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
