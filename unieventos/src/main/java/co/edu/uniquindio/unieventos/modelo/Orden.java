@@ -21,6 +21,7 @@ public class Orden {
     @EqualsAndHashCode.Include
     private String id;
 
+    private String codigo;
     private String idCliente;
     private EstadoOrden estado;
     private LocalDateTime fecha;

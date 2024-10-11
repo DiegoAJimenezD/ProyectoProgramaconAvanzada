@@ -19,14 +19,14 @@ public class EmailServicioImpl implements EmailServicio {
     public void enviarCorreo(EmailDTO emailDTO) throws Exception {
 
         Email email = EmailBuilder.startingBlank()
-                .from("SMTP_USERNAME")
+                .from("ragnar07kxl@gmail.com")
                 .to(emailDTO.destinatario())
                 .withSubject(emailDTO.asunto())
                 .withPlainText(emailDTO.cuerpo())
                 .buildEmail();
 
         try (Mailer mailer = MailerBuilder
-                .withSMTPServer("smtp.gmail.com", 587, "ragnar07kxl@gmail.com", "akyg ztra futh pqlq")
+                .withSMTPServer("smtp.gmail.com", 587, "ragnar07kxl@gmail.com", "qhas ybls otnc apay")
                 .withTransportStrategy(TransportStrategy.SMTP_TLS)
                 .withDebugLogging(true)
                 .buildMailer()) {
@@ -35,6 +35,8 @@ public class EmailServicioImpl implements EmailServicio {
             //emailServicio.enviarCorreo( new EmailDTO("Asunto", "Cuerpo mensaje", "Correo destino") );
 
             mailer.sendMail(email);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
 

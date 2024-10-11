@@ -2,8 +2,8 @@ package co.edu.uniquindio.unieventos.dto.Carrito;
 
 import co.edu.uniquindio.unieventos.modelo.DetalleCarrito;
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.Length;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 import java.util.List;

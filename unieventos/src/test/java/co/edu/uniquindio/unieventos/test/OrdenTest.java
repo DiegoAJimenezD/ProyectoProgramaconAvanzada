@@ -4,7 +4,6 @@ import co.edu.uniquindio.unieventos.modelo.DetalleOrden;
 import co.edu.uniquindio.unieventos.modelo.Orden;
 import co.edu.uniquindio.unieventos.modelo.Pago;
 import co.edu.uniquindio.unieventos.repositorios.OrdenRepo;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +23,7 @@ public class OrdenTest {
     public void registrarTest() {
         //Creamos la orden con sus propiedades
         Orden orden = Orden.builder()
-                .idCliente(new ObjectId("XXXXXX"))
+                .idCliente("XXXXXX")
                 .fecha(LocalDateTime.now())
                 .codigoPasarela("A1B23d##")
                 .items(
@@ -32,12 +31,12 @@ public class OrdenTest {
                                 DetalleOrden.builder()
                                         .cantidad(2)
                                         .nombreLocalidad("VIP")
-                                        .idEvento(new ObjectId("XXXX"))
+                                        .idEvento("XXXX")
                                         .build(),
                                 DetalleOrden.builder()
                                         .cantidad(5)
                                         .nombreLocalidad("General")
-                                        .idEvento(new ObjectId("XXXXX"))
+                                        .idEvento("XXXXX")
                                         .build()
                         )
                 )
