@@ -3,7 +3,6 @@ package co.edu.uniquindio.unieventos.servicios.impl;
 import co.edu.uniquindio.unieventos.dto.Evento.*;
 import co.edu.uniquindio.unieventos.modelo.enums.EstadoEvento;
 import co.edu.uniquindio.unieventos.modelo.Evento;
-import co.edu.uniquindio.unieventos.modelo.enums.TipoEvento;
 import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.EventoServicio;
 import lombok.RequiredArgsConstructor;
@@ -132,6 +131,7 @@ public class EventoServicioImpl implements EventoServicio {
         }
         return items;
     }
+
 }
 
 
