@@ -122,8 +122,8 @@ public class OrdenServicioImpl implements OrdenServicio {
         for (DetalleOrden item : ordenGuardada.getItems()) {
 
             // Obtener el evento y la localidad del ítem
-            Evento evento = eventoServicio.obtenerEvento(item.getCodigoEvento().toString());
-            Localidad localidad = evento.obtenerLocalidad(item.getNombreLocalidad());
+            Evento evento = eventoServicio.obtenerEvento(item.getId().toString());
+            //Localidad localidad = evento.obtenerLocalidad(item.getNombreLocalidad());
 
             // Crear el item de la pasarela
             PreferenceItemRequest itemRequest =
@@ -134,7 +134,7 @@ public class OrdenServicioImpl implements OrdenServicio {
                             .categoryId(evento.getTipo().name())
                             .quantity(item.getCantidad())
                             .currencyId("COP")
-                            .unitPrice(BigDecimal.valueOf(localidad.getPrecio()))
+                            //.unitPrice(BigDecimal.valueOf(localidad.getPrecio()))
                             .build();
 
             itemsPasarela.add(itemRequest);
@@ -219,5 +219,7 @@ public class OrdenServicioImpl implements OrdenServicio {
         pago.setValorTransaccion(payment.getTransactionAmount().floatValue());
         return pago;
     }
+
+
 
 }

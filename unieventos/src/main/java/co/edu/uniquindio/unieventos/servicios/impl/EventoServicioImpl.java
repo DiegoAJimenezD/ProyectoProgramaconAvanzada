@@ -3,6 +3,7 @@ package co.edu.uniquindio.unieventos.servicios.impl;
 import co.edu.uniquindio.unieventos.dto.Evento.*;
 import co.edu.uniquindio.unieventos.modelo.EstadoEvento;
 import co.edu.uniquindio.unieventos.modelo.Evento;
+import co.edu.uniquindio.unieventos.modelo.Localidad;
 import co.edu.uniquindio.unieventos.modelo.TipoEvento;
 import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.EventoServicio;
@@ -132,6 +133,16 @@ public class EventoServicioImpl implements EventoServicio {
         }
         return items;
     }
+
+    public Evento obtenerEvento(String codigoEvento) throws Exception {
+        Optional<Evento> eventoOptional = eventoRepo.findById(codigoEvento);
+        if (eventoOptional.isPresent()) {
+            return eventoOptional.get();
+        } else {
+            throw new Exception("Evento no encontrado con el código: " + codigoEvento);
+        }
+    }
+
 }
 
 
