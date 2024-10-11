@@ -44,7 +44,6 @@ public class CuentaServicioImpl implements CuentaServicio {
         }
         Cuenta nuevaCuenta = new Cuenta();
         nuevaCuenta.setEmail(cuenta.email());
-        nuevaCuenta.setPassword(encriptarPassword(cuenta.password()));
         nuevaCuenta.setRol(Rol.CLIENTE);
         nuevaCuenta.setFechaRegistro(LocalDateTime.now());
         nuevaCuenta.setUsuario(new Usuario(
@@ -239,7 +238,6 @@ public class CuentaServicioImpl implements CuentaServicio {
         Map<String, Object> map = construirClaims(cuenta);
         return new TokenDTO( jwtUtils.generarToken(cuenta.getEmail(), map) );
     }
-
 
     private boolean existeEmail(String email) {
         return cuentaRepo.findByEmail(email).isPresent();

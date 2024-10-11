@@ -16,16 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/imagenes")
 public class ImagenControlador {
 
-
     private final ImagenServicio imagenServicio;
-
 
     @PostMapping("/subir")
     public ResponseEntity<MensajeDTO<String>> subir(@RequestParam("imagen") MultipartFile imagen) throws Exception{
         String respuesta = imagenServicio.subirImagen(imagen);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, respuesta));
     }
-
 
     @DeleteMapping("/eliminar")
     public ResponseEntity<MensajeDTO<String>> eliminar(@RequestParam("idImagen") String idImagen)  throws Exception{
