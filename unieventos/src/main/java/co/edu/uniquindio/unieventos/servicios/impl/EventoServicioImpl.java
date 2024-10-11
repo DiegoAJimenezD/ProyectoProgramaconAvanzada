@@ -134,15 +134,6 @@ public class EventoServicioImpl implements EventoServicio {
         return items;
     }
 
-    public Evento obtenerEvento(String codigoEvento) throws Exception {
-        Optional<Evento> eventoOptional = eventoRepo.findById(codigoEvento);
-        if (eventoOptional.isPresent()) {
-            return eventoOptional.get();
-        } else {
-            throw new Exception("Evento no encontrado con el código: " + codigoEvento);
-        }
-    }
-
 }
 
 
