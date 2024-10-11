@@ -1,12 +1,12 @@
 package co.edu.uniquindio.unieventos.servicios.impl;
 
 import co.edu.uniquindio.unieventos.dto.Cuenta.*;
-import co.edu.uniquindio.unieventos.modelo.Cuenta;
-import co.edu.uniquindio.unieventos.modelo.EstadoCuenta;
-import co.edu.uniquindio.unieventos.modelo.Rol;
-import co.edu.uniquindio.unieventos.modelo.Usuario;
+import co.edu.uniquindio.unieventos.dto.Email.EmailDTO;
+import co.edu.uniquindio.unieventos.modelo.*;
 import co.edu.uniquindio.unieventos.repositorios.CuentaRepo;
+import co.edu.uniquindio.unieventos.repositorios.UsuarioRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.CuentaServicio;
+import co.edu.uniquindio.unieventos.servicios.interfaces.EmailServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +23,8 @@ import java.util.Optional;
 public class CuentaServicioImpl implements CuentaServicio {
 
     private final CuentaRepo cuentaRepo;
+    private final UsuarioRepo usuarioRepo;
+    private final EmailServicio emailServicio;
 
     @Override
     public String crearCuenta(CrearCuentaDTO cuenta) throws Exception {
@@ -46,9 +48,29 @@ public class CuentaServicioImpl implements CuentaServicio {
         ));
         nuevaCuenta.setEstado(EstadoCuenta.INACTIVO);
 
+        // Generar un código de activación de 6 dígitos
+        String codigoActivacion = String.format("%06d", (int) (Math.random() * 1000000));
+
+        // Asignar el código de recuperación a la cuenta y establecer una expiración de 15 minutos
+        nuevaCuenta.setCodigoValidacionRegistro(new CodigoValidacion(
+                LocalDateTime.now(),
+                codigoActivacion
+        ));
 
         //Guardamos la cuenta del usuario en la base de datos
         Cuenta cuentaCreada = cuentaRepo.save(nuevaCuenta);
+
+        // Enviar el correo con el código de activación
+        String contenidoCorreo = "¡Bienvenido a Unieventos!\n\n" +
+                "Gracias por registrarte. Para activar tu cuenta, por favor utiliza el siguiente código de activación:\n\n" +
+                "Código de activación: " + codigoActivacion + "\n\n" +
+                "Este código es válido por 15 minutos.\n" +
+                "Si no solicitaste esta cuenta, puedes ignorar este mensaje.";
+
+        emailServicio.enviarCorreo(
+                new EmailDTO("Activación de cuenta - Unieventos", contenidoCorreo, cuentaCreada.getEmail())
+        );
+
         return cuentaCreada.getId();
     }
 
@@ -82,10 +104,13 @@ public class CuentaServicioImpl implements CuentaServicio {
         //Si no se encontró la cuenta, lanzamos una excepción
         if (optionalCuenta.isEmpty()) {
             throw new Exception("No se encontró el usuario con el id " + id);
+        } else if (optionalCuenta.get().getEstado().equals(EstadoCuenta.ELIMINADO)) {
+            throw new Exception("La cuenta de usuario se encuentra eliminada");
         }
 
         //Obtenemos la cuenta del usuario que se quiere eliminar y le asignamos el estado eliminado
         Cuenta cuenta = optionalCuenta.get();
+
         cuenta.setEstado(EstadoCuenta.ELIMINADO);
 
         //Como el objeto cuenta ya tiene un id, el save() no crea un nuevo registro sino que actualiza el que ya existe
@@ -105,6 +130,11 @@ public class CuentaServicioImpl implements CuentaServicio {
 
         //Obtenemos la cuenta del usuario
         Cuenta cuenta = optionalCuenta.get();
+
+        //Si la cuenta esta eliminad, lanzamos una excepcion
+        if (cuenta.getEstado().equals(EstadoCuenta.ELIMINADO)) {
+            throw new Exception("La cuenta de usuario se encuentra eliminada");
+        }
 
         //Retornamos la información de la cuenta del usuario
         return new InformacionCuentaDTO(
@@ -141,7 +171,37 @@ public class CuentaServicioImpl implements CuentaServicio {
 
     @Override
     public void enviarCodigoRecuperacionPassword(String correo) throws Exception {
+        // Verificar que el correo exista
+        Optional<Cuenta> cuentaOptional = cuentaRepo.findByEmail(correo);
 
+        if (cuentaOptional.isEmpty()) {
+            throw new Exception("El correo no está registrado en el sistema.");
+        }
+
+        // Generar un código aleatorio de 6 dígitos
+        String codigoRecuperacion = String.format("%06d", (int) (Math.random() * 1000000));
+
+        // Obtener la cuenta del usuario
+        Cuenta cuentaModificada = cuentaOptional.get();
+
+        // Asignar el código de recuperación a la cuenta y establecer una expiración de 15 minutos
+        cuentaModificada.setCodigoValidacionPassword(new CodigoValidacion(
+                LocalDateTime.now(),
+                codigoRecuperacion
+        ));
+
+        // Guardar la cuenta actualizada en la base de datos
+        cuentaRepo.save(cuentaModificada);
+
+        // Modificar el contenido del correo para el restablecimiento de contraseña
+        String contenido = "Hemos recibido una solicitud para restablecer tu contraseña en Unieventos.\n\n" +
+                "Tu código de verificación es: " + codigoRecuperacion + "\n" +
+                "Este código es válido por 15 minutos. Si no solicitaste este cambio, puedes ignorar este mensaje.";
+
+        // Enviar el correo
+        emailServicio.enviarCorreo(
+                new EmailDTO("Restablecimiento de contraseña - Unieventos", contenido, correo)
+        );
     }
 
     @Override
@@ -154,13 +214,12 @@ public class CuentaServicioImpl implements CuentaServicio {
         return "";
     }
 
-
     private boolean existeEmail(String email) {
         return cuentaRepo.findByEmail(email).isPresent();
     }
 
     private boolean existeCedula(String cedula) {
-        return cuentaRepo.findByCedula(cedula).isPresent();
+        return usuarioRepo.findByCedula(cedula).isPresent();
     }
 
 }

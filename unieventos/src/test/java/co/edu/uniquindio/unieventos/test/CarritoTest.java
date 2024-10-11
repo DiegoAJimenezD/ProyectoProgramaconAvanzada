@@ -3,7 +3,6 @@ package co.edu.uniquindio.unieventos.test;
 import co.edu.uniquindio.unieventos.modelo.Carrito;
 import co.edu.uniquindio.unieventos.modelo.DetalleCarrito;
 import co.edu.uniquindio.unieventos.repositorios.CarritoRepo;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,21 +22,21 @@ public class CarritoTest {
     public void registrarTest() {
         //Creamos el evento con sus propiedades
         Carrito carrito = Carrito.builder()
-                .fecha(LocalDateTime.parse("06-12-2024"))
+                .fecha(LocalDateTime.parse("2032-12-03T10:15:30"))
                 .items(
                         Arrays.asList(
                                 DetalleCarrito.builder()
                                         .cantidad(2)
                                         .nombreLocalidad("VIP")
-                                        .idEvento("XXXX")
+                                        .idEvento("670859fd99f20b4a16eb1d7a")
                                         .build(),
                                 DetalleCarrito.builder()
                                         .cantidad(5)
                                         .nombreLocalidad("General")
-                                        .idEvento("XXXXX")
+                                        .idEvento("670859fd99f20b4a16eb1d7a")
                                         .build()
                         )
-                ).idUsuario("XXXXXXXXXX").build();
+                ).idCuenta("66e249352b3cee4503fa18c0").build();
 
         //Guardamos el carrito en la base de datos
         Carrito carritoCreado = carritoRepo.save(carrito);
@@ -51,7 +50,7 @@ public class CarritoTest {
         //Obtenemos el carrito con el idCarrito XXXXXXX
         Carrito carrito = carritoRepo.findById("XXXXXXX").orElseThrow();
         //Modificar el enombre del carrito
-        carrito.setIdUsuario("Ppo");
+        carrito.setIdCuenta("Ppo");
 
         //Guardamos el carrito
         carritoRepo.save(carrito);
@@ -60,7 +59,7 @@ public class CarritoTest {
         Carrito carritoActualizado = carritoRepo.findById("XXXXXXX").orElseThrow();
 
         //Verificamos que el nombre se haya actualizado
-        assertEquals("Ppo", carritoActualizado.getIdUsuario());
+        assertEquals("Ppo", carritoActualizado.getIdCuenta());
     }
 
     @Test

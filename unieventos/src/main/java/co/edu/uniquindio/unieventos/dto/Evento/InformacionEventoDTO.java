@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 public record InformacionEventoDTO(
         @NotBlank String id, // No puede ser nulo ni vacío
         @NotBlank String nombre, // No puede ser nulo ni vacío
-        @NotBlank @Pattern(regexp = "^(DEPORTE|CONCIERTO|CULTURAL|MODA|BELLEZA)$") String tipoEvento,// Debe ser uno de los tipos permitidos
+        @NotBlank @Pattern(regexp = "^(DEPORTE|CONCIERTO|CULTURAL|MODA|BELLEZA)$") String tipoEvento,
+// Debe ser uno de los tipos permitidos
         @NotBlank String ciudad, // No puede ser nulo ni vacío
         @NotNull LocalDateTime fecha, // No puede ser nulo
         @NotBlank String direccion, // No puede ser nulo ni vacío

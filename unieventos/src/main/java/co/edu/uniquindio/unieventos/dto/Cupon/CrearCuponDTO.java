@@ -14,6 +14,6 @@ public record CrearCuponDTO(
         @NotBlank @Pattern(regexp = "^(DISPONIBLE|NO_DISPONIBLE)$") String estadoCupon,
         @NotBlank @Pattern(regexp = "^(MULTIPLE|UNICO)$") String tipoCupon,
         @NotBlank String nombre // No puede ser nulo ni vacío
-){
+) {
 
 }

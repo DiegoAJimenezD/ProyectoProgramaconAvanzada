@@ -31,7 +31,7 @@ public class EventoTest {
                 .direccion("Bosques de Pinares")
                 .imagenLocalidades("eventos/detalle/get-up-septiembre-2024/840101319799")
                 .tipo(TipoEvento.CONCIERTO)
-                .fecha(LocalDateTime.parse("06-12-2024"))
+                .fecha(LocalDateTime.parse("2030-12-03T10:15:30"))
                 .localidades(
                         Arrays.asList(
                                 Localidad.builder()
@@ -58,7 +58,7 @@ public class EventoTest {
     @Test
     public void actualizarTest() {
         //Obtenemos el evento con el idCarrito XXXXXXX
-        Evento evento = eventoRepo.findById("XXXXXXX").orElseThrow();
+        Evento evento = eventoRepo.findById("670859fd99f20b4a16eb1d7a").orElseThrow();
         //Modificar el enombre del evento
         evento.setNombre("concierto");
 
@@ -66,7 +66,7 @@ public class EventoTest {
         eventoRepo.save(evento);
 
         //Obtenemos el evento con el idCarrito XXXXXXX nuevamente
-        Evento eventoActualizado = eventoRepo.findById("XXXXXXX").orElseThrow();
+        Evento eventoActualizado = eventoRepo.findById("670859fd99f20b4a16eb1d7a").orElseThrow();
 
         //Verificamos que el nombre se haya actualizado
         assertEquals("concierto", eventoActualizado.getNombre());

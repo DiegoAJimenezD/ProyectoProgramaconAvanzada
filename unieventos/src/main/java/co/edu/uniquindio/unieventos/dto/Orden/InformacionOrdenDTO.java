@@ -11,7 +11,8 @@ import java.util.List;
 
 public record InformacionOrdenDTO(
         @NotBlank String id, // No puede ser nulo ni vacío
-        @NotBlank @Pattern(regexp = "^(ACTIVO|CANCELADO)$") String estadoOrden,// No puede ser nulo ni vacío; debe ser uno de los estados permitidos
+        @NotBlank @Pattern(regexp = "^(ACTIVO|CANCELADO)$") String estadoOrden,
+// No puede ser nulo ni vacío; debe ser uno de los estados permitidos
         @NotBlank String idCliente, // No puede ser nulo ni vacío
         String idCupon, // Puede ser nulo
         @NotNull LocalDateTime fecha, // No puede ser nulo

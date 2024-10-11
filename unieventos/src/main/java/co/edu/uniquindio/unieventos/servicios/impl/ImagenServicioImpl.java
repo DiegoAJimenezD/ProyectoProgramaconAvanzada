@@ -11,19 +11,16 @@ import java.util.UUID;
 
 
 @Service
-public class ImagenesServicioImpl implements ImagenServicio {
+public class ImagenServicioImpl implements ImagenServicio {
 
 
     @Override
     public String subirImagen(MultipartFile multipartFile) throws Exception {
         Bucket bucket = StorageClient.getInstance().bucket();
 
-
         String fileName = String.format("%s-%s", UUID.randomUUID().toString(), multipartFile.getOriginalFilename());
 
-
         Blob blob = bucket.create(fileName, multipartFile.getInputStream(), multipartFile.getContentType());
-
 
         return String.format(
                 "https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media",
@@ -32,7 +29,6 @@ public class ImagenesServicioImpl implements ImagenServicio {
         );
     }
 
-
     @Override
     public void eliminarImagen(String nombreImagen) throws Exception {
         Bucket bucket = StorageClient.getInstance().bucket();
@@ -40,6 +36,4 @@ public class ImagenesServicioImpl implements ImagenServicio {
         blob.delete();
     }
 
-
 }
-

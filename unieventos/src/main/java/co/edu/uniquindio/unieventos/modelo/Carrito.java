@@ -23,6 +23,6 @@ public class Carrito {
 
     private LocalDateTime fecha;
     private List<DetalleCarrito> items;
-    private String idUsuario;
+    private String idCuenta;
     private Transporte transporte;
 }

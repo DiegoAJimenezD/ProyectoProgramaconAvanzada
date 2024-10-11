@@ -27,7 +27,7 @@ public class CarritoServicioImpl implements CarritoServicio {
     @Override
     public String crearCarrito(CrearCarritoDTO carritoDTO) throws Exception {
         Carrito nuevoCarrito = new Carrito();
-        nuevoCarrito.setIdUsuario(carritoDTO.idUsuario());
+        nuevoCarrito.setIdCuenta(carritoDTO.idUsuario());
         nuevoCarrito.setFecha(LocalDateTime.now());
 
         //Guardamos el carrito del usuario en la base de datos
@@ -117,7 +117,7 @@ public class CarritoServicioImpl implements CarritoServicio {
             //Retornamos la información de lel carrito del usuario
             return new InformacionCarritoDTO(
                     carrito.getFecha(),
-                    carrito.getIdUsuario(),
+                    carrito.getIdCuenta(),
                     carrito.getItems()
             );
         } else {
