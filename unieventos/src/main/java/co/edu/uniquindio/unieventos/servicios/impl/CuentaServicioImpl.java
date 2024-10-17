@@ -4,7 +4,9 @@ import co.edu.uniquindio.unieventos.config.JWTUtils;
 import co.edu.uniquindio.unieventos.dto.Cuenta.*;
 import co.edu.uniquindio.unieventos.dto.Email.EmailDTO;
 import co.edu.uniquindio.unieventos.dto.TokenDTO;
-import co.edu.uniquindio.unieventos.modelo.*;
+import co.edu.uniquindio.unieventos.modelo.CodigoValidacion;
+import co.edu.uniquindio.unieventos.modelo.Cuenta;
+import co.edu.uniquindio.unieventos.modelo.Usuario;
 import co.edu.uniquindio.unieventos.modelo.enums.EstadoCuenta;
 import co.edu.uniquindio.unieventos.modelo.enums.Rol;
 import co.edu.uniquindio.unieventos.repositorios.CuentaRepo;
@@ -231,12 +233,12 @@ public class CuentaServicioImpl implements CuentaServicio {
         Cuenta cuenta = optionalCuenta.get();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        if( !passwordEncoder.matches(loginDTO.password(), cuenta.getPassword()) ) {
+        if (!passwordEncoder.matches(loginDTO.password(), cuenta.getPassword())) {
             throw new Exception("La contraseña es incorrecta");
         }
 
         Map<String, Object> map = construirClaims(cuenta);
-        return new TokenDTO( jwtUtils.generarToken(cuenta.getEmail(), map) );
+        return new TokenDTO(jwtUtils.generarToken(cuenta.getEmail(), map));
     }
 
     private boolean existeEmail(String email) {
@@ -247,9 +249,9 @@ public class CuentaServicioImpl implements CuentaServicio {
         return usuarioRepo.findByCedula(cedula).isPresent();
     }
 
-    private String encriptarPassword(String password){
+    private String encriptarPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.encode( password );
+        return passwordEncoder.encode(password);
     }
 
     private Map<String, Object> construirClaims(Cuenta cuenta) {

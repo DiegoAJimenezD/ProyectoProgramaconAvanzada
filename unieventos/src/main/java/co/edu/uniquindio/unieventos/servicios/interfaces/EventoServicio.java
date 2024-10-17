@@ -1,8 +1,6 @@
 package co.edu.uniquindio.unieventos.servicios.interfaces;
 
 import co.edu.uniquindio.unieventos.dto.Evento.*;
-import co.edu.uniquindio.unieventos.modelo.Evento;
-import co.edu.uniquindio.unieventos.modelo.Localidad;
 
 import java.util.List;
 

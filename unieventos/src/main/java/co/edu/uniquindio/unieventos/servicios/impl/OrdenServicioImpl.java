@@ -182,7 +182,7 @@ public class OrdenServicioImpl implements OrdenServicio {
         Object tipo = request.get("type");
 
         // Si la notificación es de un pago entonces obtener el pago y la orden asociada
-        if ("payment" .equals(tipo)) {
+        if ("payment".equals(tipo)) {
 
             // Capturamos el JSON que viene en el request y lo convertimos a un String
             String input = request.get("data").toString();
@@ -216,7 +216,7 @@ public class OrdenServicioImpl implements OrdenServicio {
     private Pago crearPago(Payment payment) {
         Pago pago = new Pago();
         pago.setCodigo(payment.getId().toString());
-        pago.setFecha( payment.getDateCreated().toLocalDateTime() );
+        pago.setFecha(payment.getDateCreated().toLocalDateTime());
         pago.setEstado(payment.getStatus());
         pago.setDetalleEstado(payment.getStatusDetail());
         pago.setTipoPago(payment.getPaymentTypeId());
@@ -225,7 +225,6 @@ public class OrdenServicioImpl implements OrdenServicio {
         pago.setValorTransaccion(payment.getTransactionAmount().floatValue());
         return pago;
     }
-
 
 
 }

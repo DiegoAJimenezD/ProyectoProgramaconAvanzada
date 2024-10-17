@@ -1,6 +1,6 @@
 package co.edu.uniquindio.unieventos.dto;
 
-public record TokenDTO (
+public record TokenDTO(
         String token
-){
+) {
 }
