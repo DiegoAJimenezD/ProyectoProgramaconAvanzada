@@ -37,7 +37,7 @@ public class CarritoServicioImpl implements CarritoServicio {
 
     @Override
     public void agregarItemCarrito(AgregarItemCarritoDTO itemCarritoDTO) throws Exception {
-        Optional<Carrito> optionalCarrito = carritoRepo.findById(itemCarritoDTO.idCarrito());
+        Optional<Carrito> optionalCarrito = carritoRepo.findByIdCuenta(itemCarritoDTO.id());
 
         if (optionalCarrito.isPresent()) {
             Carrito carritoModificado = optionalCarrito.get();
@@ -52,7 +52,12 @@ public class CarritoServicioImpl implements CarritoServicio {
 
             carritoRepo.save(carritoModificado);
         } else {
-            throw new Exception("Carrito no encontrado");
+            if (optionalCarrito.isEmpty()){
+                throw new Exception("Ningún item seleccionado");
+            }
+            CrearCarritoDTO crearCarritoDTO = new CrearCarritoDTO(itemCarritoDTO.id());
+            crearCarrito(crearCarritoDTO);
+            agregarItemCarrito(itemCarritoDTO);
         }
     }
 

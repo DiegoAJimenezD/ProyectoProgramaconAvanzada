@@ -18,13 +18,7 @@ public class CarritoControlador {
 
     private final CarritoServicio carritoServicio;
 
-    @PostMapping("/crear")
-    public ResponseEntity<MensajeDTO<String>> crearCarrito(@Valid @RequestBody CrearCarritoDTO carritoDTO) throws Exception {
-        String idCarrito = carritoServicio.crearCarrito(carritoDTO);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Carrito creado exitosamente con ID: " + idCarrito));
-    }
-
-    @PostMapping("/agregar-item")
+    @PutMapping("/agregar-item")
     public ResponseEntity<MensajeDTO<String>> agregarItemCarrito(@Valid @RequestBody AgregarItemCarritoDTO itemCarritoDTO) throws Exception {
         carritoServicio.agregarItemCarrito(itemCarritoDTO);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Item agregado al carrito exitosamente"));

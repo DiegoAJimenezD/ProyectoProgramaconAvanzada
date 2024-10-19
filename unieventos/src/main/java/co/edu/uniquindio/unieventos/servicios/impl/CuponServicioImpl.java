@@ -139,7 +139,7 @@ public class CuponServicioImpl implements CuponServicio {
 
     @Override
     public List<ItemCuponDTO> filtrarCupones(FiltroCuponDTO filtroCuponDTO) {
-        List<Cupon> cupones = cuponRepo.findAll();
+        List<Cupon> cupones = cuponRepo.findByCodigoOrEstadoCuponOrNombre(filtroCuponDTO.codigo(),filtroCuponDTO.estadoCupon(),filtroCuponDTO.nombre());
 
         //Creamos una lista de DTOs
         List<ItemCuponDTO> items = new ArrayList<>();

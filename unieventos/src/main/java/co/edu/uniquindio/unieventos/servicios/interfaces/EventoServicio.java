@@ -18,5 +18,5 @@ public interface EventoServicio {
 
     List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO);
 
-
+    void subirImagenEvento(SubirImagenEventoDTO subirImagenEventoDTO, String enlace) throws Exception;
 }

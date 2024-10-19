@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Builder
-
 public class Localidad {
     private float precio;
     private String nombre;

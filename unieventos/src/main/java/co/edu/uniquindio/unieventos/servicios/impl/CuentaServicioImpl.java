@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -98,7 +97,6 @@ public class CuentaServicioImpl implements CuentaServicio {
         cuentaModificada.getUsuario().setNombre(cuenta.nombre());
         cuentaModificada.getUsuario().setTelefono(cuenta.telefono());
         cuentaModificada.getUsuario().setDireccion(cuenta.direccion());
-        cuentaModificada.setPassword(encriptarPassword(cuenta.password()));
 
         //Como el objeto cuenta ya tiene un id, el save() no crea un nuevo registro sino que actualiza el que ya existe
         cuentaRepo.save(cuentaModificada);
@@ -220,7 +218,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         }
         Cuenta cuentaModificada = optionalCuenta.get();
         cuentaModificada.setPassword(encriptarPassword(cambiarPasswordDTO.passwordNueva()));
-
+        cuentaModificada.setEstado(EstadoCuenta.ACTIVO);
         cuentaRepo.save(cuentaModificada);
     }
 

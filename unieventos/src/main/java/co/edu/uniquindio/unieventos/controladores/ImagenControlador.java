@@ -21,11 +21,9 @@ public class ImagenControlador {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, respuesta));
     }
 
-    @DeleteMapping("/eliminar")
-    public ResponseEntity<MensajeDTO<String>> eliminar(@RequestParam("idImagen") String idImagen) throws Exception {
+    @DeleteMapping("/eliminar/{idImagen}")
+    public ResponseEntity<MensajeDTO<String>> eliminar(@PathVariable String idImagen) throws Exception {
         imagenServicio.eliminarImagen(idImagen);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "La imagen fue eliminada correctamente"));
     }
-
-
 }

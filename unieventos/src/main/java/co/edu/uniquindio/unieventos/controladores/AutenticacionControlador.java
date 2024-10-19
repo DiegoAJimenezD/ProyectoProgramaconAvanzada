@@ -22,13 +22,7 @@ public class AutenticacionControlador {
     @PostMapping("/crear-cuenta")
     public ResponseEntity<MensajeDTO<String>> crearCuenta(@Valid @RequestBody CrearCuentaDTO cuenta) throws Exception {
         cuentaServicio.crearCuenta(cuenta);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta creada exitosamente"));
-    }
-
-    @PostMapping("/iniciar-sesion")
-    public ResponseEntity<MensajeDTO<TokenDTO>> iniciarSesion(@Valid @RequestBody LoginDTO loginDTO) throws Exception {
-        TokenDTO token = cuentaServicio.iniciarSesion(loginDTO);
-        return ResponseEntity.ok(new MensajeDTO<>(false, token));
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta creada exitosamente. Por favor revise el correo electronico."));
     }
 
     @PostMapping("/activar-cuenta")
@@ -37,10 +31,21 @@ public class AutenticacionControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta activada exitosamente"));
     }
 
+    @PostMapping("/iniciar-sesion")
+    public ResponseEntity<MensajeDTO<TokenDTO>> iniciarSesion(@Valid @RequestBody LoginDTO loginDTO) throws Exception {
+        TokenDTO token = cuentaServicio.iniciarSesion(loginDTO);
+        return ResponseEntity.ok(new MensajeDTO<>(false, token));
+    }
+
     @PostMapping("/recuperar-contrasena")
     public ResponseEntity<MensajeDTO<String>> recuperarContrasena(@RequestParam String correo) throws Exception {
         cuentaServicio.enviarCodigoRecuperacionPassword(correo);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Se ha enviado un código de recuperación a tu correo"));
     }
 
+    @PostMapping("/cambiar-contrasena")
+    public ResponseEntity<MensajeDTO<String>> cambiarContrasena(@Valid @RequestBody CambiarPasswordDTO cambiarPasswordDTO) throws Exception {
+        cuentaServicio.cambiarPassword(cambiarPasswordDTO);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Contraseña cambiada exitosamente"));
+    }
 }

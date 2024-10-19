@@ -3,19 +3,22 @@ package co.edu.uniquindio.unieventos.controladores;
 import co.edu.uniquindio.unieventos.dto.Evento.*;
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
 import co.edu.uniquindio.unieventos.servicios.interfaces.EventoServicio;
+import co.edu.uniquindio.unieventos.servicios.interfaces.ImagenServicio;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/evento")
+@RequestMapping("/api/evento")
 @RequiredArgsConstructor
 public class EventoControlador {
 
     private final EventoServicio eventoServicio;
+    private final ImagenServicio imagenServicio;
 
     @PostMapping("/crear")
     public ResponseEntity<MensajeDTO<String>> crearEvento(@Valid @RequestBody CrearEventoDTO crearEventoDTO) throws Exception {
@@ -51,5 +54,12 @@ public class EventoControlador {
     public ResponseEntity<MensajeDTO<List<ItemEventoDTO>>> filtrarEventos(@Valid @RequestBody FiltroEventoDTO filtroEventoDTO) {
         List<ItemEventoDTO> listaFiltrada = eventoServicio.filtrarEventos(filtroEventoDTO);
         return ResponseEntity.ok(new MensajeDTO<>(false, listaFiltrada));
+    }
+
+    @PostMapping("/subir-imagen")
+    public ResponseEntity<MensajeDTO<String>> subir(@Valid @RequestBody SubirImagenEventoDTO subirImagenEventoDTO) throws Exception {
+        String enlace = imagenServicio.subirImagen(subirImagenEventoDTO.imagen());
+        eventoServicio.subirImagenEvento(subirImagenEventoDTO, enlace);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Imagen cargada exitosamente"));
     }
 }
