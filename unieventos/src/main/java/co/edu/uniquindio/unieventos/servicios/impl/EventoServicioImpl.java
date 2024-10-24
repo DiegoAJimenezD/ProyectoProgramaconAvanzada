@@ -117,9 +117,9 @@ public class EventoServicioImpl implements EventoServicio {
     public List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO) {
         // Supongamos que ya existe una consulta en el repositorio para filtrar eventos
         List<Evento> eventosFiltrados = eventoRepo.findByNombreOrCiudadOrTipo(
-                                    filtroEventoDTO.nombre(),
-                                    filtroEventoDTO.ciudad(),
-                                    filtroEventoDTO.tipo());
+                filtroEventoDTO.nombre(),
+                filtroEventoDTO.ciudad(),
+                filtroEventoDTO.tipo());
         List<ItemEventoDTO> items = new ArrayList<>();
 
         for (Evento evento : eventosFiltrados) {

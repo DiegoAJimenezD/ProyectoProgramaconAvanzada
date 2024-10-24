@@ -1,8 +1,8 @@
 package co.edu.uniquindio.unieventos.controladores;
 
 import co.edu.uniquindio.unieventos.dto.Carrito.AgregarItemCarritoDTO;
-import co.edu.uniquindio.unieventos.dto.Carrito.CrearCarritoDTO;
 import co.edu.uniquindio.unieventos.dto.Carrito.EditarItemCarritoDTO;
+import co.edu.uniquindio.unieventos.dto.Carrito.EliminarItemCarritoDTO;
 import co.edu.uniquindio.unieventos.dto.Carrito.InformacionCarritoDTO;
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
 import co.edu.uniquindio.unieventos.servicios.interfaces.CarritoServicio;
@@ -30,9 +30,9 @@ public class CarritoControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Item editado exitosamente"));
     }
 
-    @DeleteMapping("/eliminar-item/{idCarrito}")
-    public ResponseEntity<MensajeDTO<String>> eliminarItemCarrito(@PathVariable String idCarrito) throws Exception {
-        carritoServicio.eliminarItemCarrito(idCarrito);
+    @DeleteMapping("/eliminar-item")
+    public ResponseEntity<MensajeDTO<String>> eliminarItemCarrito(@Valid @RequestBody EliminarItemCarritoDTO itemCarritoDTO) throws Exception {
+        carritoServicio.eliminarItemCarrito(itemCarritoDTO);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Item eliminado del carrito exitosamente"));
     }
 
@@ -42,9 +42,9 @@ public class CarritoControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Carrito vaciado exitosamente"));
     }
 
-    @GetMapping("/obtener/{idCarrito}")
-    public ResponseEntity<MensajeDTO<InformacionCarritoDTO>> obtenerInformacionCarrito(@PathVariable String idCarrito) throws Exception {
-        InformacionCarritoDTO infoCarrito = carritoServicio.obtenerInformacionCarrito(idCarrito);
+    @GetMapping("/obtener/{idCuenta}")
+    public ResponseEntity<MensajeDTO<InformacionCarritoDTO>> obtenerInformacionCarrito(@PathVariable String idCuenta) throws Exception {
+        InformacionCarritoDTO infoCarrito = carritoServicio.obtenerInformacionCarrito(idCuenta);
         return ResponseEntity.ok(new MensajeDTO<>(false, infoCarrito));
     }
 }

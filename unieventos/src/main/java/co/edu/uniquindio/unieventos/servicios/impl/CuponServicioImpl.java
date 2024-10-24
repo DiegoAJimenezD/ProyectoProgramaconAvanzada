@@ -64,11 +64,16 @@ public class CuponServicioImpl implements CuponServicio {
 
         //Si no se encontró la cuenta, lanzamos una excepción
         if (optionalCupon.isEmpty()) {
-            throw new Exception("No se encontró el usuario con el id " + idCupon);
+            throw new Exception("No se encontró el cupon con el id " + idCupon);
         }
 
         //Obtenemos la cuenta del usuario que se quiere eliminar y le asignamos el estado eliminado
         Cupon cuponModificado = optionalCupon.get();
+
+        if (cuponModificado.getEstado() == EstadoCupon.NO_DISPONIBLE) {
+            throw new Exception("No se encontró el cupon con el id " + idCupon);
+        }
+
         cuponModificado.setEstado(EstadoCupon.NO_DISPONIBLE);
 
         //Como el objeto cuenta ya tiene un id, el save() no crea un nuevo registro sino que actualiza el que ya existe
@@ -139,7 +144,7 @@ public class CuponServicioImpl implements CuponServicio {
 
     @Override
     public List<ItemCuponDTO> filtrarCupones(FiltroCuponDTO filtroCuponDTO) {
-        List<Cupon> cupones = cuponRepo.findByCodigoOrEstadoCuponOrNombre(filtroCuponDTO.codigo(),filtroCuponDTO.estadoCupon(),filtroCuponDTO.nombre());
+        List<Cupon> cupones = cuponRepo.findByCodigoOrNombre(filtroCuponDTO.codigo(), filtroCuponDTO.nombre());
 
         //Creamos una lista de DTOs
         List<ItemCuponDTO> items = new ArrayList<>();

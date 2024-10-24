@@ -37,6 +37,7 @@ public class OrdenServicioImpl implements OrdenServicio {
     private final OrdenRepo ordenRepo;
     private final EventoRepo eventoRepo;
     private final EventoServicio eventoServicio;
+    private final String servidor = "https://f87b-152-202-12-251.ngrok-free.app";
 
     @Override
     public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
@@ -118,11 +119,16 @@ public class OrdenServicioImpl implements OrdenServicio {
         // Obtener la cuenta del usuario
         Orden ordenGuardada = ordenOptional.get();
 
-        // Recorrer los items de la orden y crea los ítems de la pasarela
-        for (DetalleOrden item : ordenGuardada.getItems()) {
+        List<DetalleOrden> items = ordenGuardada.getItems();
 
+        if (items == null) {
+            throw new Exception(ordenGuardada.toString());
+        }
+
+        // Recorrer los items de la orden y crea los ítems de la pasarela
+        for (DetalleOrden item : items) {
             // Obtener el evento y la localidad del ítem
-            Optional<Evento> eventoOptional = eventoRepo.findById(item.getId());
+            Optional<Evento> eventoOptional = eventoRepo.findById(item.getIdEvento());
             if (eventoOptional.isEmpty()) {
                 throw new Exception("El evento no existe.");
             }
@@ -136,7 +142,8 @@ public class OrdenServicioImpl implements OrdenServicio {
                     PreferenceItemRequest.builder()
                             .id(eventoGuardado.getId())
                             .title(eventoGuardado.getNombre())
-                            .pictureUrl(eventoGuardado.getImagenPortada())
+                            //   .pictureUrl(eventoGuardado.getImagenPortada())
+                            .pictureUrl("https://www.mercadopago.com/org-img/MP3/home/logomp3.gif")
                             .categoryId(eventoGuardado.getTipo().name())
                             .quantity(item.getCantidad())
                             .currencyId("COP")
@@ -145,27 +152,35 @@ public class OrdenServicioImpl implements OrdenServicio {
 
             itemsPasarela.add(itemRequest);
         }
-
         // Configurar las credenciales de MercadoPago
-        MercadoPagoConfig.setAccessToken("ACCESS_TOKEN");
+        MercadoPagoConfig.setAccessToken("APP_USR-6852244274066081-102317-38f02c71de3f1dbf1913f9a6695c069e-1136948209");
+
+        if (MercadoPagoConfig.getAccessToken() == null) {
+            throw new Exception("Acces token invalido");
+        }
 
         // Configurar las urls de retorno de la pasarela (Frontend)
         PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                .success("URL PAGO EXITOSO")
-                .failure("URL PAGO FALLIDO")
-                .pending("URL PAGO PENDIENTE")
+                .success(servidor + "/api/orden/success")
+                .failure(servidor + "/api/orden/failure")
+                .pending(servidor + "/api/orden/pending")
                 .build();
+
+        if (ordenGuardada.getId() == null) {
+            throw new Exception("El código de la orden es nulo.");
+        }
 
         // Construir la preferencia de la pasarela con los ítems, metadatos y urls de retorno
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .backUrls(backUrls)
                 .items(itemsPasarela)
-                .metadata(Map.of("id_orden", ordenGuardada.getCodigo()))
-                .notificationUrl("URL NOTIFICACION")
+                .metadata(Map.of("id_orden", ordenGuardada.getId()))
+                .notificationUrl(servidor + "/api/orden/notificacion-pago")
                 .build();
 
         // Crear la preferencia en la pasarela de MercadoPago
         PreferenceClient client = new PreferenceClient();
+
         Preference preference = client.create(preferenceRequest);
 
         // Guardar el código de la pasarela en la orden
@@ -225,6 +240,4 @@ public class OrdenServicioImpl implements OrdenServicio {
         pago.setValorTransaccion(payment.getTransactionAmount().floatValue());
         return pago;
     }
-
-
 }
