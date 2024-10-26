@@ -37,11 +37,31 @@ public class OrdenServicioImpl implements OrdenServicio {
     private final OrdenRepo ordenRepo;
     private final EventoRepo eventoRepo;
     private final EventoServicio eventoServicio;
-    private final String servidor = "https://f87b-152-202-12-251.ngrok-free.app";
+    private final String servidor = "https://df7b-189-50-209-152.ngrok-free.app";
 
     @Override
     public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
+        Optional<Evento> eventoOptional;
+
+        List<DetalleOrden> items = new ArrayList<>();
+        for (DetalleOrden item : items) {
+            eventoOptional = eventoRepo.findById(item.getIdEvento());
+
+            if (eventoOptional.isEmpty()) {
+                throw new Exception("El evento no existe.");
+            }
+
+            Evento eventoModificado = eventoOptional.get();
+            for (Localidad localidad : eventoModificado.getLocalidades()) {
+                if(localidad.getNombre() == item.getNombreLocalidad()){
+                    if(item.getCantidad() <= (localidad.getCapacidadMaxima() -localidad.getEntradasVendidas())){
+                        localidad.setEntradasVendidas(localidad.getEntradasVendidas() + item.getCantidad());
+                    }
+                }
+            }
+        }
         // Crear una nueva orden con los datos del DTO
+
         Orden nuevaOrden = new Orden();
         nuevaOrden.setEstado(EstadoOrden.ACTIVO);
         nuevaOrden.setIdCliente(crearOrdenDTO.idCliente());
@@ -53,6 +73,7 @@ public class OrdenServicioImpl implements OrdenServicio {
 
         Orden ordenGuardada = ordenRepo.save(nuevaOrden);
         return ordenGuardada.getId();
+
     }
 
     @Override
@@ -240,4 +261,33 @@ public class OrdenServicioImpl implements OrdenServicio {
         pago.setValorTransaccion(payment.getTransactionAmount().floatValue());
         return pago;
     }
+
+    @Override
+    public List<InformacionOrdenDTO> listarOrdenesPorCliente(String idCliente) throws Exception {
+        // Buscar todas las órdenes del cliente
+        List<Orden> ordenes = ordenRepo.findByIdCliente(idCliente);
+
+        // Verificar si se encontraron órdenes
+        if (ordenes.isEmpty()) {
+            throw new Exception("No se encontraron órdenes para el cliente con ID: " + idCliente);
+        }
+
+        // Convertir cada orden a un DTO
+        List<InformacionOrdenDTO> ordenesDTO = new ArrayList<>();
+        for (Orden orden : ordenes) {
+            ordenesDTO.add(new InformacionOrdenDTO(
+                    orden.getId(),
+                    orden.getEstado().toString(),
+                    orden.getIdCliente(),
+                    orden.getIdCupon(),
+                    orden.getFecha(),
+                    orden.getCodigoPasarela(),
+                    orden.getItems(),
+                    orden.getTotal()
+            ));
+        }
+
+        return ordenesDTO;
+    }
+
 }

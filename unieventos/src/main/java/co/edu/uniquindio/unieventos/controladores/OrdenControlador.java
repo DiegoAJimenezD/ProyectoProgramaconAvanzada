@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -27,6 +28,11 @@ public class OrdenControlador {
     @GetMapping("/informacion/{id}")
     public ResponseEntity<MensajeDTO<InformacionOrdenDTO>> obtenerInformacionOrden(@PathVariable("id") String idOrden) throws Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, ordenServicio.obtenerInformacionOrden(idOrden)));
+    }
+
+    @GetMapping("/listar-ordenes/{id}")
+    public ResponseEntity<MensajeDTO<List<InformacionOrdenDTO>>> listarOrdenesByIdCuenta(@PathVariable("id") String idOrden) throws Exception {
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, ordenServicio.listarOrdenesPorCliente(idOrden)));
     }
 
     @PutMapping("/editar")

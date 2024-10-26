@@ -6,6 +6,7 @@ import co.edu.uniquindio.unieventos.modelo.enums.EstadoEvento;
 import co.edu.uniquindio.unieventos.modelo.enums.TipoEvento;
 import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.EventoServicio;
+import co.edu.uniquindio.unieventos.servicios.interfaces.ImagenServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class EventoServicioImpl implements EventoServicio {
 
     private final EventoRepo eventoRepo;
-
+    private final ImagenServicio imagenServicio;
     @Override
     public String crearEvento(CrearEventoDTO crearEventoDTO) throws Exception {
         Evento nuevoEvento = new Evento();
@@ -33,6 +34,7 @@ public class EventoServicioImpl implements EventoServicio {
         nuevoEvento.setFecha(crearEventoDTO.fecha());
         nuevoEvento.setTipo(TipoEvento.valueOf(crearEventoDTO.tipoEvento()));
 
+        //nuevoEvento.setImagenPortada(imagenServicio.subirImagen(crearEventoDTO.multipartFile()));
         // Guardamos el nuevo evento en la base de datos
         Evento eventoGuardado = eventoRepo.save(nuevoEvento);
         return eventoGuardado.getId();
@@ -123,15 +125,18 @@ public class EventoServicioImpl implements EventoServicio {
         List<ItemEventoDTO> items = new ArrayList<>();
 
         for (Evento evento : eventosFiltrados) {
-            items.add(new ItemEventoDTO(
-                    evento.getId(),
-                    evento.getNombre(),
-                    evento.getTipo().toString(),
-                    evento.getCiudad(),
-                    evento.getFecha(),
-                    evento.getDireccion(),
-                    evento.getImagenPortada()
-            ));
+            if (evento.getEstado().equals(EstadoEvento.ACTIVO)) {
+                items.add(new ItemEventoDTO(
+                        evento.getId(),
+                        evento.getNombre(),
+                        evento.getTipo().toString(),
+                        evento.getCiudad(),
+                        evento.getFecha(),
+                        evento.getDireccion(),
+                        evento.getImagenPortada()
+                ));
+            }
+
         }
         return items;
     }

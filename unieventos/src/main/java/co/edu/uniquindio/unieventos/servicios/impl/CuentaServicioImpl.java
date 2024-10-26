@@ -2,16 +2,21 @@ package co.edu.uniquindio.unieventos.servicios.impl;
 
 import co.edu.uniquindio.unieventos.config.JWTUtils;
 import co.edu.uniquindio.unieventos.dto.Cuenta.*;
+import co.edu.uniquindio.unieventos.dto.Cupon.CrearCuponDTO;
 import co.edu.uniquindio.unieventos.dto.Email.EmailDTO;
 import co.edu.uniquindio.unieventos.dto.TokenDTO;
 import co.edu.uniquindio.unieventos.modelo.CodigoValidacion;
 import co.edu.uniquindio.unieventos.modelo.Cuenta;
+import co.edu.uniquindio.unieventos.modelo.Cupon;
 import co.edu.uniquindio.unieventos.modelo.Usuario;
 import co.edu.uniquindio.unieventos.modelo.enums.EstadoCuenta;
+import co.edu.uniquindio.unieventos.modelo.enums.EstadoCupon;
 import co.edu.uniquindio.unieventos.modelo.enums.Rol;
+import co.edu.uniquindio.unieventos.modelo.enums.TipoCupon;
 import co.edu.uniquindio.unieventos.repositorios.CuentaRepo;
 import co.edu.uniquindio.unieventos.repositorios.UsuarioRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.CuentaServicio;
+import co.edu.uniquindio.unieventos.servicios.interfaces.CuponServicio;
 import co.edu.uniquindio.unieventos.servicios.interfaces.EmailServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +38,7 @@ public class CuentaServicioImpl implements CuentaServicio {
     private final CuentaRepo cuentaRepo;
     private final UsuarioRepo usuarioRepo;
     private final EmailServicio emailServicio;
+    private final CuponServicio cuponServicio;
     private final JWTUtils jwtUtils;
 
     @Override
@@ -56,7 +63,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         nuevaCuenta.setEstado(EstadoCuenta.INACTIVO);
 
         // Generar un código de activación de 6 dígitos
-        String codigoActivacion = String.format("%06d", (int) (Math.random() * 1000000));
+        String codigoActivacion = generarCodigoAleatorio();
 
         // Asignar el código de recuperación a la cuenta y establecer una expiración de 15 minutos
         nuevaCuenta.setCodigoValidacionRegistro(new CodigoValidacion(
@@ -67,12 +74,29 @@ public class CuentaServicioImpl implements CuentaServicio {
         //Guardamos la cuenta del usuario en la base de datos
         Cuenta cuentaCreada = cuentaRepo.save(nuevaCuenta);
 
+        CrearCuponDTO nuevoCupon = new CrearCuponDTO(
+                15,
+                null,
+                "PRIMERAVEZ" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                "DISPONIBLE",
+                "UNICO",
+                "Cupon primera vez " + cuentaCreada.getId()
+
+        );
+
+        String codigoCupon = cuponServicio.crearCupon(nuevoCupon);
+
         // Enviar el correo con el código de activación
         String contenidoCorreo = "¡Bienvenido a Unieventos!\n\n" +
                 "Gracias por registrarte. Para activar tu cuenta, por favor utiliza el siguiente código de activación:\n\n" +
                 "Código de activación: " + codigoActivacion + "\n\n" +
                 "Este código es válido por 15 minutos.\n" +
-                "Si no solicitaste esta cuenta, puedes ignorar este mensaje.";
+                "Si no solicitaste esta cuenta, puedes ignorar este mensaje.\n\n" +
+                "¡Además, queremos darte la bienvenida con un regalo especial!\n" +
+                "Como agradecimiento por unirte a nosotros, te obsequiamos un cupón de descuento.\n" +
+                "Código de cupón: " + codigoCupon + "\n\n" +
+                "¡Disfruta de tu experiencia en Unieventos!";
+
 
         emailServicio.enviarCorreo(
                 new EmailDTO("Activación de cuenta - Unieventos", contenidoCorreo, cuentaCreada.getEmail())
@@ -185,7 +209,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         }
 
         // Generar un código aleatorio de 6 dígitos
-        String codigoRecuperacion = String.format("%06d", (int) (Math.random() * 1000000));
+        String codigoRecuperacion = generarCodigoAleatorio();
 
         // Obtener la cuenta del usuario
         Cuenta cuentaModificada = cuentaOptional.get();
@@ -217,6 +241,9 @@ public class CuentaServicioImpl implements CuentaServicio {
             throw new Exception("La cuenta no existe");
         }
         Cuenta cuentaModificada = optionalCuenta.get();
+//        if(cuentaModificada.getCodigoValidacionRegistro() != null){
+//            if (cuentaModificada.getCodigoValidacionRegistro().getFecha().range(LocalDateTime.now().format()))
+//        }
         cuentaModificada.setPassword(encriptarPassword(cambiarPasswordDTO.passwordNueva()));
         cuentaModificada.setEstado(EstadoCuenta.ACTIVO);
         cuentaRepo.save(cuentaModificada);
@@ -229,6 +256,11 @@ public class CuentaServicioImpl implements CuentaServicio {
             throw new Exception("La cuenta no existe");
         }
         Cuenta cuenta = optionalCuenta.get();
+
+        if (!cuenta.getEstado().equals(EstadoCuenta.ACTIVO)) {
+            throw new Exception("El usuario se encuentra inactivo.");
+        }
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if (!passwordEncoder.matches(loginDTO.password(), cuenta.getPassword())) {
@@ -250,6 +282,10 @@ public class CuentaServicioImpl implements CuentaServicio {
     private String encriptarPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
+    }
+
+    private String generarCodigoAleatorio() {
+        return String.format("%06d", (int) (Math.random() * 1000000));
     }
 
     private Map<String, Object> construirClaims(Cuenta cuenta) {
