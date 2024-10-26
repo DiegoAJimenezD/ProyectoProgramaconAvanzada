@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unieventos.servicios.interfaces;
 
-import co.edu.uniquindio.unieventos.dto.Carrito.AgregarItemCarritoDTO;
-import co.edu.uniquindio.unieventos.dto.Carrito.CrearCarritoDTO;
-import co.edu.uniquindio.unieventos.dto.Carrito.EditarItemCarritoDTO;
-import co.edu.uniquindio.unieventos.dto.Carrito.InformacionCarritoDTO;
+import co.edu.uniquindio.unieventos.dto.Carrito.*;
 
 public interface CarritoServicio {
 
@@ -17,7 +14,7 @@ public interface CarritoServicio {
     void editarItemCarrito(EditarItemCarritoDTO editarItemCarritoDTO) throws Exception;
 
     // Metodo para eliminar un producto del carrito
-    void eliminarItemCarrito(String idCarrito) throws Exception;
+    void eliminarItemCarrito(EliminarItemCarritoDTO eliminarItemCarritoDTO) throws Exception;
 
     // Metodo para vaciar completamente el carrito
     void vaciarCarrito(String idCarrito) throws Exception;

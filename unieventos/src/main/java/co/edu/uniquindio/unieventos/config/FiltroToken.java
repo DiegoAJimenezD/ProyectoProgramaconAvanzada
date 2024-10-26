@@ -76,6 +76,7 @@ public class FiltroToken extends OncePerRequestFilter {
             }
         }
     }
+
     private String getToken(HttpServletRequest req) {
         String header = req.getHeader("Authorization");
         return header != null && header.startsWith("Bearer ") ? header.replace("Bearer ", "") : null;
@@ -91,7 +92,7 @@ public class FiltroToken extends OncePerRequestFilter {
         response.getWriter().close();
     }
 
-    private boolean validarToken(String token, Rol rol){
+    private boolean validarToken(String token, Rol rol) {
         boolean error = true;
         if (token != null) {
             Jws<Claims> jws = jwtUtils.parseJwt(token);

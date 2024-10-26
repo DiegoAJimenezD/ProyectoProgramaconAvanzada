@@ -1,24 +1,20 @@
 db = connect('mongodb://localhost:27017/proyecto');
-
-
 db.cuentas.insertMany([
     {
-        _id: '66a2a9aaa8620e3c1c5437be',
         rol: 'CLIENTE',
         estado: 'INACTIVO',
-        email: 'pepeperez@email.com',
-        password: 'password',
+        email: 'anfoji2003@gmail.com',
+        password: '',
         usuario: {
-            cedula: '1213444',
-            nombre: 'Pepito perez',
-            telefono: '3012223333',
-            direccion: 'Calle 12 # 12-12',
+            cedula: '1006491712',
+            nombre: 'Anderson Fonseca López',
+            telefono: '3192208938',
+            direccion: 'Barrio ahitamara',
         },
         fechaRegistro: ISODate('2024-07-25T21:41:57.849Z'),
         _class: 'co.edu.uniquindio.unieventos.modelo.Cuenta'
     },
     {
-        _id: '66a2c14dd9219911cd34f2c0',
         rol: 'CLIENTE',
         estado: 'ACTIVO',
         email: 'rosalopez@email.com',
@@ -33,7 +29,6 @@ db.cuentas.insertMany([
         _class: 'co.edu.uniquindio.unieventos.modelo.Cuenta'
     },
     {
-        _id: '66a2c1517f3b340441ffdeb0',
         rol: 'ADMINISTRADOR',
         estado: 'ACTIVO',
         email: 'admin1@email.com',
@@ -45,7 +40,6 @@ db.cuentas.insertMany([
         _class: 'co.edu.uniquindio.unieventos.modelo.Cuenta'
     },
     {
-        _id: '66a2c14dd9219911cd34f2c1',
         rol: 'CLIENTE',
         estado: 'ACTIVO',
         email: 'juanperez@email.com',
@@ -60,7 +54,6 @@ db.cuentas.insertMany([
         _class: 'co.edu.uniquindio.unieventos.modelo.Cuenta'
     },
     {
-        _id: '66a2c14dd9219911cd34f2c2',
         rol: 'CLIENTE',
         estado: 'ACTIVO',
         email: 'mariagomez@email.com',
@@ -75,10 +68,8 @@ db.cuentas.insertMany([
         _class: 'co.edu.uniquindio.unieventos.modelo.Cuenta'
     }
 ]);
-
 db.eventos.insertMany([
     {
-        _id: '66a2c476991cff088eb80aaf',
         nombre: 'Concierto de despedida del 2024',
         descripcion: 'Concierto con los mejores artistas del 2024 para despedir el año',
         fecha: ISODate('2024-11-11T01:00:00.000Z'),
@@ -89,128 +80,121 @@ db.eventos.insertMany([
             {
                 nombre: 'VIP',
                 precio: 80000,
-                capacidadMaxima: 50
+                capacidadMaxima: 50,
+                entradasVendidas: 0
             },
             {
                 nombre: 'GENERAL',
                 precio: 20000,
-                capacidadMaxima: 200
+                capacidadMaxima: 200,
+                entradasVendidas: 0
             }
         ],
-        imagenPortada: 'Url de la imagen del poster del concierto',
-        imagenLocalidades: 'Url de la imagen de la distribución de las localidades',
         _class: 'co.edu.uniquindio.unieventos.modelo.Evento'
     },
     {
-        _id: '66a2c476991cff088eb80ab0',
         nombre: 'Festival de Música y Arte',
         descripcion: 'Un festival que celebra la música y el arte local con artistas de la región.',
         fecha: ISODate('2024-12-01T10:00:00.000Z'),
-        tipo: 'FESTIVAL',
+        tipo: 'DEPORTE',
         direccion: 'Parque de la Vida, carrera 8 # 5-20',
         ciudad: 'Armenia',
         localidades: [
             {
                 nombre: 'VIP',
                 precio: 100000,
-                capacidadMaxima: 30
+                capacidadMaxima: 30,
+                entradasVendidas: 0
             },
             {
                 nombre: 'GENERAL',
                 precio: 30000,
-                capacidadMaxima: 150
+                capacidadMaxima: 150,
+                entradasVendidas: 0
             }
         ],
-        imagenPortada: 'Url de la imagen del festival',
-        imagenLocalidades: 'Url de la imagen de la distribución de las localidades',
         _class: 'co.edu.uniquindio.unieventos.modelo.Evento'
     },
     {
-        _id: '66a2c476991cff088eb80ab1',
         nombre: 'Teatro: La Historia de Colombia',
         descripcion: 'Una obra de teatro que narra la historia de Colombia a través de sus personajes más emblemáticos.',
         fecha: ISODate('2024-11-15T20:00:00.000Z'),
-        tipo: 'TEATRO',
+        tipo: 'BELLEZA',
         direccion: 'Teatro Municipal, avenida 19 # 14-40',
         ciudad: 'Manizales',
         localidades: [
             {
                 nombre: 'VIP',
                 precio: 60000,
-                capacidadMaxima: 80
+                capacidadMaxima: 80,
+                entradasVendidas: 0
             },
             {
                 nombre: 'GENERAL',
                 precio: 40000,
-                capacidadMaxima: 120
+                capacidadMaxima: 120,
+                entradasVendidas: 0
             }
         ],
-        imagenPortada: 'Url de la imagen de la obra de teatro',
-        imagenLocalidades: 'Url de la imagen de la distribución de las localidades',
         _class: 'co.edu.uniquindio.unieventos.modelo.Evento'
     },
     {
-        _id: '66a2c476991cff088eb80ab2',
         nombre: 'Exposición de Arte Moderno',
         descripcion: 'Exposición que reúne las obras de los artistas más innovadores del arte moderno.',
         fecha: ISODate('2024-10-05T09:00:00.000Z'),
-        tipo: 'EXPOSICIÓN',
+        tipo: 'CULTURAL',
         direccion: 'Museo de Arte Moderno, calle 15 # 6-40',
         ciudad: 'Pereira',
         localidades: [
             {
                 nombre: 'GENERAL',
                 precio: 25000,
-                capacidadMaxima: 300
+                capacidadMaxima: 300,
+                entradasVendidas: 0
             }
         ],
-        imagenPortada: 'Url de la imagen de la exposición',
-        imagenLocalidades: 'Url de la imagen de la distribución de las localidades',
         _class: 'co.edu.uniquindio.unieventos.modelo.Evento'
     },
     {
-        _id: '66a2c476991cff088eb80ab3',
         nombre: 'Competencia de Cocina Internacional',
         descripcion: 'Una competencia donde los mejores chefs de la región compiten por el título del mejor cocinero.',
         fecha: ISODate('2024-11-20T15:00:00.000Z'),
-        tipo: 'COMPETENCIA',
+        tipo: 'DEPORTE',
         direccion: 'Centro de Convenciones, carrera 5 # 25-30',
         ciudad: 'Caldas',
         localidades: [
             {
                 nombre: 'VIP',
                 precio: 70000,
-                capacidadMaxima: 50
+                capacidadMaxima: 50,
+                entradasVendidas: 0
             },
             {
                 nombre: 'GENERAL',
                 precio: 20000,
-                capacidadMaxima: 100
+                capacidadMaxima: 100,
+                entradasVendidas: 0
             }
         ],
-        imagenPortada: 'Url de la imagen de la competencia',
-        imagenLocalidades: 'Url de la imagen de la distribución de las localidades',
         _class: 'co.edu.uniquindio.unieventos.modelo.Evento'
     }
 
 ]);
 
-
 db.ordenes.insertMany([
     {
-        _id: '66a2c6a55773597d73593fff',
         detalle: [
             {
-                codigoEvento: '66a2c476991cff088eb80aaf',
+                codigoEvento: '6719a4c0f2002f74eb7c3031',
                 nombreLocalidad: 'GENERAL',
                 precio: 50000,
                 cantidad: 2
             }
         ],
-        codigoCliente: '66a2a9aaa8620e3c1c5437be',
+        idCliente: '6719a193f2002f74eb7c301f',
         total: 100000,
         fecha: ISODate('2024-07-25T21:41:57.849Z'),
-        codigoPasarela: 'CODIGO_PASARELA',
+        codigoPasarela: 'asaksnnaaaasdas',
         pago: {
             codigo: '48dc3dd9-bde1-45ae-b23f-27ee7a261f00',
             fecha: ISODate('2024-07-25T21:41:57.849Z'),
@@ -221,16 +205,15 @@ db.ordenes.insertMany([
         _class: 'co.edu.uniquindio.unieventos.modelo.Orden'
     },
     {
-        _id: '66a2c6a55773597d73593ff0',
         detalle: [
             {
-                codigoEvento: '66a2c476991cff088eb80aaf',
+                codigoEvento: '6719a4c0f2002f74eb7c3031',
                 nombreLocalidad: 'VIP',
                 precio: 80000,
                 cantidad: 1
             }
         ],
-        codigoCliente: '66a2c14dd9219911cd34f2c0',
+        codigoCliente: '6719a193f2002f74eb7c301e',
         total: 80000,
         fecha: ISODate('2024-08-10T15:30:00.849Z'),
         codigoPasarela: 'CODIGO_PASARELA_1',
@@ -244,16 +227,15 @@ db.ordenes.insertMany([
         _class: 'co.edu.uniquindio.unieventos.modelo.Orden'
     },
     {
-        _id: '66a2c6a55773597d73593ff1',
         detalle: [
             {
-                codigoEvento: '66a2c476991cff088eb80b0a',
+                codigoEvento: '6719a4c0f2002f74eb7c302f',
                 nombreLocalidad: 'GENERAL',
                 precio: 20000,
                 cantidad: 4
             }
         ],
-        codigoCliente: '66a2c1517f3b340441ffdeb0',
+        idCliente: '6719a193f2002f74eb7c301c',
         total: 80000,
         fecha: ISODate('2024-09-01T12:00:00.849Z'),
         codigoPasarela: 'CODIGO_PASARELA_2',
@@ -267,16 +249,15 @@ db.ordenes.insertMany([
         _class: 'co.edu.uniquindio.unieventos.modelo.Orden'
     },
     {
-        _id: '66a2c6a55773597d73593ff2',
         detalle: [
             {
-                codigoEvento: '66a2c476991cff088eb80b1b',
+                codigoEvento: '6719a4c0f2002f74eb7c302d',
                 nombreLocalidad: 'VIP',
                 precio: 50000,
                 cantidad: 3
             }
         ],
-        codigoCliente: '66a2c14dd9219911cd34f2c1',
+        idCliente: '6712d6c893cc7a4b29a96932',
         total: 150000,
         fecha: ISODate('2024-09-15T18:45:00.849Z'),
         codigoPasarela: 'CODIGO_PASARELA_3',
@@ -290,22 +271,21 @@ db.ordenes.insertMany([
         _class: 'co.edu.uniquindio.unieventos.modelo.Orden'
     },
     {
-        _id: '66a2c6a55773597d73593ff3',
         detalle: [
             {
-                codigoEvento: '66a2c476991cff088eb80b2c',
+                codigoEvento: '6712e5b409f49a107152379d',
                 nombreLocalidad: 'GENERAL',
                 precio: 20000,
                 cantidad: 5
             },
             {
-                codigoEvento: '66a2c476991cff088eb80b3d',
+                codigoEvento: '6712e5b409f49a107152379d',
                 nombreLocalidad: 'VIP',
                 precio: 80000,
                 cantidad: 1
             }
         ],
-        codigoCliente: '66a2c14dd9219911cd34f2c2',
+        idCliente: '6712d6c893cc7a4b29a96932',
         total: 200000,
         fecha: ISODate('2024-09-25T10:00:00.849Z'),
         codigoPasarela: 'CODIGO_PASARELA_4',

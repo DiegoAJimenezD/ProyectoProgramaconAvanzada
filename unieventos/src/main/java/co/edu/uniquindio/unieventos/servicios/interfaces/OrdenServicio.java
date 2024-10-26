@@ -5,6 +5,7 @@ import co.edu.uniquindio.unieventos.dto.Orden.EditarOrdenDTO;
 import co.edu.uniquindio.unieventos.dto.Orden.InformacionOrdenDTO;
 import com.mercadopago.resources.preference.Preference;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -27,5 +28,7 @@ public interface OrdenServicio {
 
     // Metodo para cancelar una orden
     void cancelarOrden(String idOrden) throws Exception;
+
+    List<InformacionOrdenDTO> listarOrdenesPorCliente(String idCliente) throws Exception;
 }
 

@@ -5,6 +5,7 @@ import co.edu.uniquindio.unieventos.dto.Orden.EditarOrdenDTO;
 import co.edu.uniquindio.unieventos.dto.Orden.InformacionOrdenDTO;
 import co.edu.uniquindio.unieventos.modelo.*;
 import co.edu.uniquindio.unieventos.modelo.enums.EstadoOrden;
+import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
 import co.edu.uniquindio.unieventos.repositorios.OrdenRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.EventoServicio;
 import co.edu.uniquindio.unieventos.servicios.interfaces.OrdenServicio;
@@ -34,11 +35,33 @@ import java.util.Optional;
 public class OrdenServicioImpl implements OrdenServicio {
 
     private final OrdenRepo ordenRepo;
+    private final EventoRepo eventoRepo;
     private final EventoServicio eventoServicio;
+    private final String servidor = "https://df7b-189-50-209-152.ngrok-free.app";
 
     @Override
     public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
+        Optional<Evento> eventoOptional;
+
+        List<DetalleOrden> items = new ArrayList<>();
+        for (DetalleOrden item : items) {
+            eventoOptional = eventoRepo.findById(item.getIdEvento());
+
+            if (eventoOptional.isEmpty()) {
+                throw new Exception("El evento no existe.");
+            }
+
+            Evento eventoModificado = eventoOptional.get();
+            for (Localidad localidad : eventoModificado.getLocalidades()) {
+                if(localidad.getNombre() == item.getNombreLocalidad()){
+                    if(item.getCantidad() <= (localidad.getCapacidadMaxima() -localidad.getEntradasVendidas())){
+                        localidad.setEntradasVendidas(localidad.getEntradasVendidas() + item.getCantidad());
+                    }
+                }
+            }
+        }
         // Crear una nueva orden con los datos del DTO
+
         Orden nuevaOrden = new Orden();
         nuevaOrden.setEstado(EstadoOrden.ACTIVO);
         nuevaOrden.setIdCliente(crearOrdenDTO.idCliente());
@@ -50,6 +73,7 @@ public class OrdenServicioImpl implements OrdenServicio {
 
         Orden ordenGuardada = ordenRepo.save(nuevaOrden);
         return ordenGuardada.getId();
+
     }
 
     @Override
@@ -105,66 +129,86 @@ public class OrdenServicioImpl implements OrdenServicio {
 
     @Override
     public Preference realizarPago(String idOrden) throws Exception {
-//
-//        Optional<Orden> ordenOptional = ordenRepo.findById(idOrden);
-//        List<PreferenceItemRequest> itemsPasarela = new ArrayList<>();
-//
-//        if (ordenOptional.isEmpty()) {
-//            throw new Exception("La orden no existe.");
-//        }
-//
-//        // Obtener la cuenta del usuario
-//        Orden ordenGuardada = ordenOptional.get();
-//
-//        // Recorrer los items de la orden y crea los ítems de la pasarela
-//        for (DetalleOrden item : ordenGuardada.getItems()) {
-//
-//            // Obtener el evento y la localidad del ítem
-//            Evento evento = eventoServicio.obtenerEvento(item.getCodigoEvento().toString());
-//            Localidad localidad = evento.obtenerLocalidad(item.getNombreLocalidad());
-//
-//            // Crear el item de la pasarela
-//            PreferenceItemRequest itemRequest =
-//                    PreferenceItemRequest.builder()
-//                            .id(evento.getId())
-//                            .title(evento.getNombre())
-//                            .pictureUrl(evento.getImagenPortada())
-//                            .categoryId(evento.getTipo().name())
-//                            .quantity(item.getCantidad())
-//                            .currencyId("COP")
-//                            .unitPrice(BigDecimal.valueOf(localidad.getPrecio()))
-//                            .build();
-//
-//            itemsPasarela.add(itemRequest);
-//        }
-//
-//        // Configurar las credenciales de MercadoPago
-//        MercadoPagoConfig.setAccessToken("ACCESS_TOKEN");
-//
-//        // Configurar las urls de retorno de la pasarela (Frontend)
-//        PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-//                .success("URL PAGO EXITOSO")
-//                .failure("URL PAGO FALLIDO")
-//                .pending("URL PAGO PENDIENTE")
-//                .build();
-//
-//        // Construir la preferencia de la pasarela con los ítems, metadatos y urls de retorno
-//        PreferenceRequest preferenceRequest = PreferenceRequest.builder()
-//                .backUrls(backUrls)
-//                .items(itemsPasarela)
-//                .metadata(Map.of("id_orden", ordenGuardada.getCodigo()))
-//                .notificationUrl("URL NOTIFICACION")
-//                .build();
-//
-//        // Crear la preferencia en la pasarela de MercadoPago
-//        PreferenceClient client = new PreferenceClient();
-//        Preference preference = client.create(preferenceRequest);
-//
-//        // Guardar el código de la pasarela en la orden
-//        ordenGuardada.setCodigoPasarela(preference.getId());
-//        ordenRepo.save(ordenGuardada);
 
-        return null;
+        Optional<Orden> ordenOptional = ordenRepo.findById(idOrden);
+        List<PreferenceItemRequest> itemsPasarela = new ArrayList<>();
+
+        if (ordenOptional.isEmpty()) {
+            throw new Exception("La orden no existe.");
+        }
+
+        // Obtener la cuenta del usuario
+        Orden ordenGuardada = ordenOptional.get();
+
+        List<DetalleOrden> items = ordenGuardada.getItems();
+
+        if (items == null) {
+            throw new Exception(ordenGuardada.toString());
+        }
+
+        // Recorrer los items de la orden y crea los ítems de la pasarela
+        for (DetalleOrden item : items) {
+            // Obtener el evento y la localidad del ítem
+            Optional<Evento> eventoOptional = eventoRepo.findById(item.getIdEvento());
+            if (eventoOptional.isEmpty()) {
+                throw new Exception("El evento no existe.");
+            }
+
+            Evento eventoGuardado = eventoOptional.get();
+            //Localidad localidad = eventoGuardado.getLocalidades().get(item.getNombreLocalidad());
+            Localidad localidad = eventoGuardado.getLocalidades().get(0);
+
+            // Crear el item de la pasarela
+            PreferenceItemRequest itemRequest =
+                    PreferenceItemRequest.builder()
+                            .id(eventoGuardado.getId())
+                            .title(eventoGuardado.getNombre())
+                            //   .pictureUrl(eventoGuardado.getImagenPortada())
+                            .pictureUrl("https://www.mercadopago.com/org-img/MP3/home/logomp3.gif")
+                            .categoryId(eventoGuardado.getTipo().name())
+                            .quantity(item.getCantidad())
+                            .currencyId("COP")
+                            .unitPrice(BigDecimal.valueOf(localidad.getPrecio()))
+                            .build();
+
+            itemsPasarela.add(itemRequest);
+        }
+        // Configurar las credenciales de MercadoPago
+        MercadoPagoConfig.setAccessToken("APP_USR-6852244274066081-102317-38f02c71de3f1dbf1913f9a6695c069e-1136948209");
+
+        if (MercadoPagoConfig.getAccessToken() == null) {
+            throw new Exception("Acces token invalido");
+        }
+
+        // Configurar las urls de retorno de la pasarela (Frontend)
+        PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
+                .success(servidor + "/api/orden/success")
+                .failure(servidor + "/api/orden/failure")
+                .pending(servidor + "/api/orden/pending")
+                .build();
+
+        if (ordenGuardada.getId() == null) {
+            throw new Exception("El código de la orden es nulo.");
+        }
+
+        // Construir la preferencia de la pasarela con los ítems, metadatos y urls de retorno
+        PreferenceRequest preferenceRequest = PreferenceRequest.builder()
+                .backUrls(backUrls)
+                .items(itemsPasarela)
+                .metadata(Map.of("id_orden", ordenGuardada.getId()))
+                .notificationUrl(servidor + "/api/orden/notificacion-pago")
+                .build();
+
+        // Crear la preferencia en la pasarela de MercadoPago
+        PreferenceClient client = new PreferenceClient();
+
+        Preference preference = client.create(preferenceRequest);
+
+        // Guardar el código de la pasarela en la orden
+        ordenGuardada.setCodigoPasarela(preference.getId());
+        ordenRepo.save(ordenGuardada);
+
+        return preference;
     }
 
     @Override
@@ -174,7 +218,7 @@ public class OrdenServicioImpl implements OrdenServicio {
         Object tipo = request.get("type");
 
         // Si la notificación es de un pago entonces obtener el pago y la orden asociada
-        if ("payment" .equals(tipo)) {
+        if ("payment".equals(tipo)) {
 
             // Capturamos el JSON que viene en el request y lo convertimos a un String
             String input = request.get("data").toString();
@@ -208,7 +252,7 @@ public class OrdenServicioImpl implements OrdenServicio {
     private Pago crearPago(Payment payment) {
         Pago pago = new Pago();
         pago.setCodigo(payment.getId().toString());
-        pago.setFecha( payment.getDateCreated().toLocalDateTime() );
+        pago.setFecha(payment.getDateCreated().toLocalDateTime());
         pago.setEstado(payment.getStatus());
         pago.setDetalleEstado(payment.getStatusDetail());
         pago.setTipoPago(payment.getPaymentTypeId());
@@ -218,6 +262,32 @@ public class OrdenServicioImpl implements OrdenServicio {
         return pago;
     }
 
+    @Override
+    public List<InformacionOrdenDTO> listarOrdenesPorCliente(String idCliente) throws Exception {
+        // Buscar todas las órdenes del cliente
+        List<Orden> ordenes = ordenRepo.findByIdCliente(idCliente);
 
+        // Verificar si se encontraron órdenes
+        if (ordenes.isEmpty()) {
+            throw new Exception("No se encontraron órdenes para el cliente con ID: " + idCliente);
+        }
+
+        // Convertir cada orden a un DTO
+        List<InformacionOrdenDTO> ordenesDTO = new ArrayList<>();
+        for (Orden orden : ordenes) {
+            ordenesDTO.add(new InformacionOrdenDTO(
+                    orden.getId(),
+                    orden.getEstado().toString(),
+                    orden.getIdCliente(),
+                    orden.getIdCupon(),
+                    orden.getFecha(),
+                    orden.getCodigoPasarela(),
+                    orden.getItems(),
+                    orden.getTotal()
+            ));
+        }
+
+        return ordenesDTO;
+    }
 
 }
