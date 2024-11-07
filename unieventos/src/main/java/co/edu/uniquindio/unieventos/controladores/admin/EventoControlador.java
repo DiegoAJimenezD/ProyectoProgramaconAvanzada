@@ -54,7 +54,7 @@ public class EventoControlador {
         List<ItemEventoDTO> listaFiltrada = eventoServicio.filtrarEventos(filtroEventoDTO);
         return ResponseEntity.ok(new MensajeDTO<>(false, listaFiltrada));
     }
-
+  
     @PostMapping("/subir-imagen")
     public ResponseEntity<MensajeDTO<String>> subir(@Valid @RequestBody SubirImagenEventoDTO subirImagenEventoDTO) throws Exception {
         String enlace = imagenServicio.subirImagen(subirImagenEventoDTO.imagen());
