@@ -1,4 +1,4 @@
-package co.edu.uniquindio.unieventos.controladores;
+package co.edu.uniquindio.unieventos.controladores.cliente;
 
 import co.edu.uniquindio.unieventos.dto.Evento.*;
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
@@ -12,30 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/evento")
+@RequestMapping("/api/cliente/evento")
 @RequiredArgsConstructor
-public class EventoControlador {
+public class EventoClienteControlador {
 
     private final EventoServicio eventoServicio;
     private final ImagenServicio imagenServicio;
-
-    @PostMapping("/crear")
-    public ResponseEntity<MensajeDTO<String>> crearEvento(@Valid @RequestBody CrearEventoDTO crearEventoDTO) throws Exception {
-        String id = eventoServicio.crearEvento(crearEventoDTO);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Evento creado exitosamente con ID: " + id));
-    }
-
-    @PutMapping("/editar")
-    public ResponseEntity<MensajeDTO<String>> editarEvento(@Valid @RequestBody EditarEventoDTO editarEventoDTO) throws Exception {
-        eventoServicio.editarEvento(editarEventoDTO);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Evento editado exitosamente"));
-    }
-
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<MensajeDTO<String>> eliminarEvento(@PathVariable String id) throws Exception {
-        eventoServicio.eliminarEvento(id);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Evento eliminado exitosamente"));
-    }
 
     @GetMapping("/obtener/{id}")
     public ResponseEntity<MensajeDTO<InformacionEventoDTO>> obtenerInformacionEvento(@PathVariable String id) throws Exception {
@@ -54,11 +36,5 @@ public class EventoControlador {
         List<ItemEventoDTO> listaFiltrada = eventoServicio.filtrarEventos(filtroEventoDTO);
         return ResponseEntity.ok(new MensajeDTO<>(false, listaFiltrada));
     }
-  
-    @PostMapping("/subir-imagen")
-    public ResponseEntity<MensajeDTO<String>> subir(@Valid @RequestBody SubirImagenEventoDTO subirImagenEventoDTO) throws Exception {
-        String enlace = imagenServicio.subirImagen(subirImagenEventoDTO.imagen());
-        eventoServicio.subirImagenEvento(subirImagenEventoDTO, enlace);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Imagen cargada exitosamente"));
-    }
+
 }

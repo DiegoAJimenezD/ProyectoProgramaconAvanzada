@@ -1,4 +1,4 @@
-package co.edu.uniquindio.unieventos.controladores;
+package co.edu.uniquindio.unieventos.controladores.admin;
 
 import co.edu.uniquindio.unieventos.dto.Cupon.*;
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cupon")
+@RequestMapping("/api/administrador/cupon")
 @RequiredArgsConstructor
 public class CuponControlador {
 

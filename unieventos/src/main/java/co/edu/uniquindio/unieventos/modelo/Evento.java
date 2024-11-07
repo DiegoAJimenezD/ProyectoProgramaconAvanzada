@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unieventos.modelo;
 
+import co.edu.uniquindio.unieventos.modelo.enums.Ciudad;
 import co.edu.uniquindio.unieventos.modelo.enums.EstadoEvento;
 import co.edu.uniquindio.unieventos.modelo.enums.TipoEvento;
 import lombok.*;
@@ -32,6 +33,6 @@ public class Evento {
     private String imagenLocalidades;
     private TipoEvento tipo;
     private LocalDateTime fecha;
-    private String ciudad;
+    private Ciudad ciudad;
     private List<Localidad> localidades;
 }

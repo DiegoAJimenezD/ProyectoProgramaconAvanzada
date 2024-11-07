@@ -1,4 +1,4 @@
-package co.edu.uniquindio.unieventos.controladores;
+package co.edu.uniquindio.unieventos.controladores.cliente;
 
 import co.edu.uniquindio.unieventos.dto.Carrito.AgregarItemCarritoDTO;
 import co.edu.uniquindio.unieventos.dto.Carrito.EditarItemCarritoDTO;
@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/carrito")
+@RequestMapping("/api/cliente/carrito")
 @RequiredArgsConstructor
 public class CarritoControlador {
 

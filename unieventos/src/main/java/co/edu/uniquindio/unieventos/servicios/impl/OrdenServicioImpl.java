@@ -43,7 +43,7 @@ public class OrdenServicioImpl implements OrdenServicio {
     public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
         Optional<Evento> eventoOptional;
 
-        List<DetalleOrden> items = new ArrayList<>();
+        List<DetalleOrden> items = crearOrdenDTO.items();
         for (DetalleOrden item : items) {
             eventoOptional = eventoRepo.findById(item.getIdEvento());
 
@@ -51,14 +51,27 @@ public class OrdenServicioImpl implements OrdenServicio {
                 throw new Exception("El evento no existe.");
             }
 
+            boolean existeLocalidad = true;
             Evento eventoModificado = eventoOptional.get();
-            for (Localidad localidad : eventoModificado.getLocalidades()) {
-                if(localidad.getNombre() == item.getNombreLocalidad()){
+            List<Localidad> localidades = eventoModificado.getLocalidades();
+            for (Localidad localidad : localidades) {
+                if(localidad.getNombre().equals(item.getNombreLocalidad())){
+                    existeLocalidad = false;
                     if(item.getCantidad() <= (localidad.getCapacidadMaxima() -localidad.getEntradasVendidas())){
                         localidad.setEntradasVendidas(localidad.getEntradasVendidas() + item.getCantidad());
+                        eventoModificado.setLocalidades(localidades);
+                    }else{
+                        throw new Exception("La localidad " + localidad.getNombre() + " tiene disponibilidad de "
+                        + (localidad.getCapacidadMaxima() -localidad.getEntradasVendidas()) + " entradas y las entradas " +
+                                "a comprar son "
+                        + item.getCantidad());
                     }
                 }
             }
+            if (existeLocalidad) {
+                throw new Exception("La localidad no existe.");
+            }
+            eventoRepo.save(eventoModificado);
         }
         // Crear una nueva orden con los datos del DTO
 
@@ -121,6 +134,33 @@ public class OrdenServicioImpl implements OrdenServicio {
         if (optionalOrden.isPresent()) {
             Orden orden = optionalOrden.get();
             orden.setEstado(EstadoOrden.CANCELADO);
+
+            Optional<Evento> eventoOptional;
+
+            List<DetalleOrden> items = orden.getItems();
+            for (DetalleOrden item : items) {
+                eventoOptional = eventoRepo.findById(item.getIdEvento());
+
+                if (eventoOptional.isEmpty()) {
+                    throw new Exception("El evento no existe.");
+                }
+                boolean existeLocalidad = true;
+                Evento eventoModificado = eventoOptional.get();
+                List<Localidad> localidades = eventoModificado.getLocalidades();
+                for (Localidad localidad : localidades) {
+                    if(localidad.getNombre().equals(item.getNombreLocalidad())){
+                        existeLocalidad = false;
+                            localidad.setEntradasVendidas(localidad.getEntradasVendidas() - item.getCantidad());
+                            eventoModificado.setLocalidades(localidades);
+                    }
+                }
+                if (existeLocalidad) {
+                    throw new Exception("La localidad no existe.");
+                }
+                eventoRepo.save(eventoModificado);
+            }
+
+
             ordenRepo.save(orden);
         } else {
             throw new Exception("Orden no encontrada");

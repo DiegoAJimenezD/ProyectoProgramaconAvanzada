@@ -36,4 +36,14 @@ public class ImagenServicioImpl implements ImagenServicio {
         blob.delete();
     }
 
+    @Override
+    public String editarImagen(String nombreImagenExistente, MultipartFile nuevaImagen) throws Exception {
+        // Primero, eliminamos la imagen existente.
+        eliminarImagen(nombreImagenExistente);
+
+        // Luego, subimos la nueva imagen y obtenemos su URL.
+        return subirImagen(nuevaImagen);
+    }
+
+
 }

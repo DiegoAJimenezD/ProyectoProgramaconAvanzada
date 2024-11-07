@@ -2,6 +2,7 @@ package co.edu.uniquindio.unieventos.servicios.impl;
 
 import co.edu.uniquindio.unieventos.dto.Evento.*;
 import co.edu.uniquindio.unieventos.modelo.Evento;
+import co.edu.uniquindio.unieventos.modelo.enums.Ciudad;
 import co.edu.uniquindio.unieventos.modelo.enums.EstadoEvento;
 import co.edu.uniquindio.unieventos.modelo.enums.TipoEvento;
 import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
@@ -30,7 +31,7 @@ public class EventoServicioImpl implements EventoServicio {
                 crearEventoDTO.localidades()
         );
         nuevoEvento.setDireccion(crearEventoDTO.direccion());
-        nuevoEvento.setCiudad(crearEventoDTO.ciudad());
+        nuevoEvento.setCiudad(Ciudad.valueOf(crearEventoDTO.ciudad()));
         nuevoEvento.setFecha(crearEventoDTO.fecha());
         nuevoEvento.setTipo(TipoEvento.valueOf(crearEventoDTO.tipoEvento()));
 
@@ -48,7 +49,7 @@ public class EventoServicioImpl implements EventoServicio {
             Evento eventoModificado = optionalEvento.get();
             eventoModificado.setNombre(editarEventoDTO.nombre());
             eventoModificado.setLocalidades(editarEventoDTO.localidades());
-            eventoModificado.setCiudad(editarEventoDTO.ciudad());
+            eventoModificado.setCiudad(Ciudad.valueOf(editarEventoDTO.ciudad()));
             eventoModificado.setFecha(editarEventoDTO.fecha());
             eventoModificado.setDireccion(editarEventoDTO.direccion());
             eventoModificado.setTipo(TipoEvento.valueOf(editarEventoDTO.tipoEvento()));
@@ -85,7 +86,7 @@ public class EventoServicioImpl implements EventoServicio {
                     evento.getId(),
                     evento.getNombre(),
                     evento.getTipo().toString(),
-                    evento.getCiudad(),
+                    evento.getCiudad().toString(),
                     evento.getFecha(),
                     evento.getDireccion(),
                     evento.getImagenPortada()
@@ -106,7 +107,7 @@ public class EventoServicioImpl implements EventoServicio {
                     evento.getId(),
                     evento.getNombre(),
                     evento.getTipo().toString(),
-                    evento.getCiudad(),
+                    evento.getCiudad().toString(),
                     evento.getFecha(),
                     evento.getDireccion(),
                     evento.getImagenPortada()
@@ -130,7 +131,7 @@ public class EventoServicioImpl implements EventoServicio {
                         evento.getId(),
                         evento.getNombre(),
                         evento.getTipo().toString(),
-                        evento.getCiudad(),
+                        evento.getCiudad().toString(),
                         evento.getFecha(),
                         evento.getDireccion(),
                         evento.getImagenPortada()
