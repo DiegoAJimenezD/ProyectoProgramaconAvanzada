@@ -1,4 +1,4 @@
-package co.edu.uniquindio.unieventos.controladores;
+package co.edu.uniquindio.unieventos.controladores.cliente;
 
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
 import co.edu.uniquindio.unieventos.dto.Orden.CrearOrdenDTO;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/orden")
+@RequestMapping("/api/cliente/orden")
 public class OrdenControlador {
 
     private final OrdenServicio ordenServicio;

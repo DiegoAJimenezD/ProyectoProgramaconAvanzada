@@ -1,4 +1,4 @@
-package co.edu.uniquindio.unieventos.controladores;
+package co.edu.uniquindio.unieventos.controladores.cliente;
 
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
 import co.edu.uniquindio.unieventos.dto.Pqr.CambiarEstadoPqrDTO;
@@ -12,9 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/pqr")
+@RequestMapping("/api/cliente/pqr")
 @RequiredArgsConstructor
-public class PqrControlador {
+public class PqrClienteControlador {
 
     private final PqrServicio pqrServicio;
 

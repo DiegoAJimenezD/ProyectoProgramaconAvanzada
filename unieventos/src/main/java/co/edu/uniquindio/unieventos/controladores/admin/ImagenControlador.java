@@ -1,4 +1,4 @@
-package co.edu.uniquindio.unieventos.controladores;
+package co.edu.uniquindio.unieventos.controladores.admin;
 
 
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/imagenes")
+@RequestMapping("/api/administrador/imagenes")
 public class ImagenControlador {
 
     private final ImagenServicio imagenServicio;
@@ -25,5 +25,13 @@ public class ImagenControlador {
     public ResponseEntity<MensajeDTO<String>> eliminar(@PathVariable String idImagen) throws Exception {
         imagenServicio.eliminarImagen(idImagen);
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "La imagen fue eliminada correctamente"));
+    }
+
+    @PutMapping("/editar/{idImagenExistente}")
+    public ResponseEntity<MensajeDTO<String>> editar(
+            @PathVariable String idImagenExistente,
+            @RequestParam("nuevaImagen") MultipartFile nuevaImagen) throws Exception {
+        String nuevaUrl = imagenServicio.editarImagen(idImagenExistente, nuevaImagen);
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, "Imagen editada correctamente: " + nuevaUrl));
     }
 }

@@ -1,8 +1,7 @@
-package co.edu.uniquindio.unieventos.controladores;
+package co.edu.uniquindio.unieventos.controladores.cliente;
 
 import co.edu.uniquindio.unieventos.dto.Cuenta.EditarCuentaDTO;
 import co.edu.uniquindio.unieventos.dto.Cuenta.InformacionCuentaDTO;
-import co.edu.uniquindio.unieventos.dto.Cuenta.ItemCuentaDTO;
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
 import co.edu.uniquindio.unieventos.servicios.interfaces.CuentaServicio;
 import jakarta.validation.Valid;
@@ -10,12 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/cuenta")
+@RequestMapping("/api/cliente/cuenta")
 @RequiredArgsConstructor
-public class CuentaControlador {
+public class CuentaClienteControlador {
     private final CuentaServicio cuentaServicio;
 
     @PutMapping("/editar-perfil")
@@ -34,11 +31,5 @@ public class CuentaControlador {
     public ResponseEntity<MensajeDTO<InformacionCuentaDTO>> obtenerInformacionCuenta(@PathVariable String id) throws Exception {
         InformacionCuentaDTO info = cuentaServicio.obtenerInformacionCuenta(id);
         return ResponseEntity.ok(new MensajeDTO<>(false, info));
-    }
-
-    @GetMapping("/listar-todo")
-    public ResponseEntity<MensajeDTO<List<ItemCuentaDTO>>> listarCuentas() {
-        List<ItemCuentaDTO> lista = cuentaServicio.listarCuentas();
-        return ResponseEntity.ok(new MensajeDTO<>(false, lista));
     }
 }

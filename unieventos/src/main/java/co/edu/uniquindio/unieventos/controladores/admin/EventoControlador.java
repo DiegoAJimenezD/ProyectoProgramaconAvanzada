@@ -1,4 +1,4 @@
-package co.edu.uniquindio.unieventos.controladores;
+package co.edu.uniquindio.unieventos.controladores.admin;
 
 import co.edu.uniquindio.unieventos.dto.Evento.*;
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/evento")
+@RequestMapping("/api/administrador/evento")
 @RequiredArgsConstructor
 public class EventoControlador {
 
