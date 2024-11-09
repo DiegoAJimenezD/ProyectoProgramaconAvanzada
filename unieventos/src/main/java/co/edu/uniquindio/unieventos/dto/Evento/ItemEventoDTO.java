@@ -13,6 +13,6 @@ public record ItemEventoDTO(
         @Length(max = 100) String ciudad, // Máximo 100 caracteres
         LocalDateTime fecha, // No requiere validación
         @Length(max = 100) String direccion, // Máximo 100 caracteres
-        String urlImagenPoster // Máximo 200 caracteres
+        String imagenPortada // Máximo 200 caracteres
 ) {
 }

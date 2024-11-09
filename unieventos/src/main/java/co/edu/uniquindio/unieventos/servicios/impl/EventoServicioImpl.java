@@ -23,6 +23,7 @@ public class EventoServicioImpl implements EventoServicio {
 
     private final EventoRepo eventoRepo;
     private final ImagenServicio imagenServicio;
+
     @Override
     public String crearEvento(CrearEventoDTO crearEventoDTO) throws Exception {
         Evento nuevoEvento = new Evento();
@@ -85,8 +86,8 @@ public class EventoServicioImpl implements EventoServicio {
             return new InformacionEventoDTO(
                     evento.getId(),
                     evento.getNombre(),
-                    evento.getTipo().toString(),
-                    evento.getCiudad().toString(),
+                    evento.getTipo().getNombreTipoEvento(),
+                    evento.getCiudad().getNombreCiudad(),
                     evento.getFecha(),
                     evento.getDireccion(),
                     evento.getImagenPortada()
@@ -106,8 +107,8 @@ public class EventoServicioImpl implements EventoServicio {
             items.add(new ItemEventoDTO(
                     evento.getId(),
                     evento.getNombre(),
-                    evento.getTipo().toString(),
-                    evento.getCiudad().toString(),
+                    evento.getTipo().getNombreTipoEvento(),
+                    evento.getCiudad().getNombreCiudad(),
                     evento.getFecha(),
                     evento.getDireccion(),
                     evento.getImagenPortada()

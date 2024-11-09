@@ -1,4 +1,4 @@
-package co.edu.uniquindio.unieventos.controladores.cliente;
+package co.edu.uniquindio.unieventos.controladores;
 
 import co.edu.uniquindio.unieventos.dto.Evento.FiltroEventoDTO;
 import co.edu.uniquindio.unieventos.dto.Evento.InformacionEventoDTO;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cliente/evento")
+@RequestMapping("/api/evento")
 @RequiredArgsConstructor
-public class EventoClienteControlador {
+public class EventoPublicControlador {
 
     private final EventoServicio eventoServicio;
     private final ImagenServicio imagenServicio;
