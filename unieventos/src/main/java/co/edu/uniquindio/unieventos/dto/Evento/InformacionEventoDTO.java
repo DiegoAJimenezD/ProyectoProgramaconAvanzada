@@ -14,6 +14,6 @@ public record InformacionEventoDTO(
         @NotBlank String ciudad, // No puede ser nulo ni vacío
         @NotNull LocalDateTime fecha, // No puede ser nulo
         @NotBlank String direccion, // No puede ser nulo ni vacío
-        String urlImagenPoster // Puede ser nulo o vacío
+        String imagenPortada // Puede ser nulo o vacío
 ) {
 }

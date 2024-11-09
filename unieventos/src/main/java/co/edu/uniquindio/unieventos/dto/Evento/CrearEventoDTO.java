@@ -4,7 +4,6 @@ import co.edu.uniquindio.unieventos.modelo.Localidad;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +15,6 @@ public record CrearEventoDTO(
         @NotBlank String tipoEvento, // No puede ser nulo ni vacío
         @NotBlank String direccion, // No puede ser nulo ni vacío
         List<Localidad> localidades,
-        String urlImagenEvento
+        String imagenPortada
 ) {
 }

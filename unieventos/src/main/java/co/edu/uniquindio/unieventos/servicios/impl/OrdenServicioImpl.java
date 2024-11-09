@@ -55,16 +55,16 @@ public class OrdenServicioImpl implements OrdenServicio {
             Evento eventoModificado = eventoOptional.get();
             List<Localidad> localidades = eventoModificado.getLocalidades();
             for (Localidad localidad : localidades) {
-                if(localidad.getNombre().equals(item.getNombreLocalidad())){
+                if (localidad.getNombre().equals(item.getNombreLocalidad())) {
                     existeLocalidad = false;
-                    if(item.getCantidad() <= (localidad.getCapacidadMaxima() -localidad.getEntradasVendidas())){
+                    if (item.getCantidad() <= (localidad.getCapacidadMaxima() - localidad.getEntradasVendidas())) {
                         localidad.setEntradasVendidas(localidad.getEntradasVendidas() + item.getCantidad());
                         eventoModificado.setLocalidades(localidades);
-                    }else{
+                    } else {
                         throw new Exception("La localidad " + localidad.getNombre() + " tiene disponibilidad de "
-                        + (localidad.getCapacidadMaxima() -localidad.getEntradasVendidas()) + " entradas y las entradas " +
+                                + (localidad.getCapacidadMaxima() - localidad.getEntradasVendidas()) + " entradas y las entradas " +
                                 "a comprar son "
-                        + item.getCantidad());
+                                + item.getCantidad());
                     }
                 }
             }
@@ -148,10 +148,10 @@ public class OrdenServicioImpl implements OrdenServicio {
                 Evento eventoModificado = eventoOptional.get();
                 List<Localidad> localidades = eventoModificado.getLocalidades();
                 for (Localidad localidad : localidades) {
-                    if(localidad.getNombre().equals(item.getNombreLocalidad())){
+                    if (localidad.getNombre().equals(item.getNombreLocalidad())) {
                         existeLocalidad = false;
-                            localidad.setEntradasVendidas(localidad.getEntradasVendidas() - item.getCantidad());
-                            eventoModificado.setLocalidades(localidades);
+                        localidad.setEntradasVendidas(localidad.getEntradasVendidas() - item.getCantidad());
+                        eventoModificado.setLocalidades(localidades);
                     }
                 }
                 if (existeLocalidad) {

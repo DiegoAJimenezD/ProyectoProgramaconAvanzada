@@ -2,7 +2,6 @@ package co.edu.uniquindio.unieventos.controladores.admin;
 
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
 import co.edu.uniquindio.unieventos.dto.Pqr.CambiarEstadoPqrDTO;
-import co.edu.uniquindio.unieventos.dto.Pqr.CrearPqrDTO;
 import co.edu.uniquindio.unieventos.dto.Pqr.InformacionPqrDTO;
 import co.edu.uniquindio.unieventos.dto.Pqr.ResponderPqrDTO;
 import co.edu.uniquindio.unieventos.servicios.interfaces.PqrServicio;

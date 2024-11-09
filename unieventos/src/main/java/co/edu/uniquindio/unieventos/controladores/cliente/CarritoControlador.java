@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unieventos.controladores.cliente;
 
-import co.edu.uniquindio.unieventos.dto.Carrito.AgregarItemCarritoDTO;
-import co.edu.uniquindio.unieventos.dto.Carrito.EditarItemCarritoDTO;
-import co.edu.uniquindio.unieventos.dto.Carrito.EliminarItemCarritoDTO;
-import co.edu.uniquindio.unieventos.dto.Carrito.InformacionCarritoDTO;
+import co.edu.uniquindio.unieventos.dto.Carrito.*;
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
 import co.edu.uniquindio.unieventos.servicios.interfaces.CarritoServicio;
 import jakarta.validation.Valid;
