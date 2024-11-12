@@ -3,6 +3,7 @@ package co.edu.uniquindio.unieventos.servicios.interfaces;
 import co.edu.uniquindio.unieventos.dto.Evento.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EventoServicio {
 
@@ -15,6 +16,10 @@ public interface EventoServicio {
     InformacionEventoDTO obtenerInformacionEvento(String id) throws Exception;
 
     List<ItemEventoDTO> listarEventos();
+
+    List<Map<String, String>> listarTipos();
+
+    List<Map<String, String>> listarCiudades();
 
     List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO);
 

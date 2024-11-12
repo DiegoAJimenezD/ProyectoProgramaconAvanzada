@@ -16,6 +16,8 @@ public record EditarEventoDTO(
 // Debe ser uno de los tipos permitidos
         @NotBlank String direccion, // No puede ser nulo ni vacío
         @NotBlank String ciudad, // No puede ser nulo ni vacío
-        List<Localidad> localidades
+        List<Localidad> localidades,
+        String imagenPortada,
+        String imagenLocalidades
 ) {
 }

@@ -22,7 +22,7 @@ public class AutenticacionControlador {
     @PostMapping("/crear-cuenta")
     public ResponseEntity<MensajeDTO<String>> crearCuenta(@Valid @RequestBody CrearCuentaDTO cuenta) throws Exception {
         cuentaServicio.crearCuenta(cuenta);
-        return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta creada exitosamente. Por favor revise el correo electronico."));
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta creada exitosamente.\nPor favor revise el correo electronico diligenciado en el fomrulatio para activar la cuenta."));
     }
 
     @PostMapping("/activar-cuenta")

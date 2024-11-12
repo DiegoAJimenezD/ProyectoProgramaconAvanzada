@@ -1,34 +1,32 @@
 package co.edu.uniquindio.unieventos.modelo.enums;
 
 public enum Ciudad {
-    BOGOTA("Bogotá"),
-    MEDELLIN("Medellín"),
-    CALI("Cali"),
+    ARMENIA("Armenia"),
     BARRANQUILLA("Barranquilla"),
+    BOGOTA("Bogotá"),
+    BUCARAMANGA("Bucaramanga"),
+    CALI("Cali"),
     CARTAGENA("Cartagena"),
     CUCUTA("Cúcuta"),
-    BUCARAMANGA("Bucaramanga"),
-    PEREIRA("Pereira"),
-    SANTA_MARTA("Santa Marta"),
     IBAGUE("Ibagué"),
     MANIZALES("Manizales"),
-    PASTO("Pasto"),
+    MEDELLIN("Medellín"),
     MONTERIA("Montería"),
-    VILLAVICENCIO("Villavicencio"),
-    ARMENIA("Armenia"),
     NEIVA("Neiva"),
+    PASTO("Pasto"),
+    PEREIRA("Pereira"),
     POPAYAN("Popayán"),
+    RIONEGRO("Rionegro"),
+    SANTA_MARTA("Santa Marta"),
     SINCELEJO("Sincelejo"),
     TUNJA("Tunja"),
-    RIONEGRO("Rionegro");
-
+    VILLAVICENCIO("Villavicencio");
 
     private final String nombreCiudad;
 
     Ciudad(String nombreCiudad) {
         this.nombreCiudad = nombreCiudad;
     }
-
 
     public String getNombreCiudad() {
         return nombreCiudad;
