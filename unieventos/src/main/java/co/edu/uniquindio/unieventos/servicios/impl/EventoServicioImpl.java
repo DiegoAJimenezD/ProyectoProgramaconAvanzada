@@ -12,9 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -35,6 +33,7 @@ public class EventoServicioImpl implements EventoServicio {
         nuevoEvento.setCiudad(Ciudad.valueOf(crearEventoDTO.ciudad()));
         nuevoEvento.setFecha(crearEventoDTO.fecha());
         nuevoEvento.setTipo(TipoEvento.valueOf(crearEventoDTO.tipoEvento()));
+        nuevoEvento.setEstado(EstadoEvento.ACTIVO);
 
         //nuevoEvento.setImagenPortada(imagenServicio.subirImagen(crearEventoDTO.multipartFile()));
         // Guardamos el nuevo evento en la base de datos
@@ -91,7 +90,6 @@ public class EventoServicioImpl implements EventoServicio {
                     evento.getFecha(),
                     evento.getDireccion(),
                     evento.getImagenPortada()
-
             );
         } else {
             throw new Exception("Evento no encontrado");
@@ -100,10 +98,11 @@ public class EventoServicioImpl implements EventoServicio {
 
     @Override
     public List<ItemEventoDTO> listarEventos() {
-        List<Evento> eventos = eventoRepo.findAll();
+        List<Evento> eventos = eventoRepo.findByEstado("ACTIVO");
         List<ItemEventoDTO> items = new ArrayList<>();
 
         for (Evento evento : eventos) {
+            //if (evento.getEstado().equals(EstadoEvento.ACTIVO)) {
             items.add(new ItemEventoDTO(
                     evento.getId(),
                     evento.getNombre(),
@@ -113,17 +112,47 @@ public class EventoServicioImpl implements EventoServicio {
                     evento.getDireccion(),
                     evento.getImagenPortada()
             ));
+            //}
         }
         return items;
     }
 
     @Override
+    public List<Map<String, String>> listarTipos() {
+        List<Map<String, String>> tipos = new ArrayList<>();
+        for (TipoEvento tipo : TipoEvento.values()) {
+            Map<String, String> tipoMap = new HashMap<>();
+            tipoMap.put("value", tipo.name());
+            tipoMap.put("nombre", tipo.getNombreTipoEvento());
+            tipos.add(tipoMap);
+        }
+        return tipos;
+    }
+
+    @Override
+    public List<Map<String, String>> listarCiudades() {
+        List<Map<String, String>> ciudades = new ArrayList<>();
+        for (Ciudad ciudad : Ciudad.values()) {
+            Map<String, String> ciudadMap = new HashMap<>();
+            ciudadMap.put("value", ciudad.name());
+            ciudadMap.put("nombre", ciudad.getNombreCiudad());
+            ciudades.add(ciudadMap);
+        }
+        return ciudades;
+    }
+
+    @Override
     public List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO) {
         // Supongamos que ya existe una consulta en el repositorio para filtrar eventos
-        List<Evento> eventosFiltrados = eventoRepo.findByNombreOrCiudadOrTipo(
+        List<Evento> eventosFiltrados;
+
+        eventosFiltrados = eventoRepo.findByNombreIgnoreCaseLikeAndCiudadLikeAndTipoLikeAndEstado(
                 filtroEventoDTO.nombre(),
                 filtroEventoDTO.ciudad(),
-                filtroEventoDTO.tipo());
+                filtroEventoDTO.tipo(),
+                "ACTIVO"
+        );
+
         List<ItemEventoDTO> items = new ArrayList<>();
 
         for (Evento evento : eventosFiltrados) {
@@ -131,8 +160,8 @@ public class EventoServicioImpl implements EventoServicio {
                 items.add(new ItemEventoDTO(
                         evento.getId(),
                         evento.getNombre(),
-                        evento.getTipo().toString(),
-                        evento.getCiudad().toString(),
+                        evento.getTipo().getNombreTipoEvento(),
+                        evento.getCiudad().getNombreCiudad(),
                         evento.getFecha(),
                         evento.getDireccion(),
                         evento.getImagenPortada()

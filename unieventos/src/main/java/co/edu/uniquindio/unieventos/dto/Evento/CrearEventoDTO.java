@@ -15,6 +15,7 @@ public record CrearEventoDTO(
         @NotBlank String tipoEvento, // No puede ser nulo ni vacío
         @NotBlank String direccion, // No puede ser nulo ni vacío
         List<Localidad> localidades,
-        String imagenPortada
+        String imagenPortada,
+        String imagenLocalidades
 ) {
 }

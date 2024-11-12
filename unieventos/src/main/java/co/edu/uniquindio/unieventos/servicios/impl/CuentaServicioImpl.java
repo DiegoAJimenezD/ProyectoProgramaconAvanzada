@@ -241,7 +241,7 @@ public class CuentaServicioImpl implements CuentaServicio {
 //        if(cuentaModificada.getCodigoValidacionRegistro() != null){
 //            if (cuentaModificada.getCodigoValidacionRegistro().getFecha().range(LocalDateTime.now().format()))
 //        }
-        cuentaModificada.setPassword(encriptarPassword(cambiarPasswordDTO.passwordNueva()));
+        cuentaModificada.setPassword(encriptarPassword(cambiarPasswordDTO.password()));
         cuentaModificada.setEstado(EstadoCuenta.ACTIVO);
         cuentaRepo.save(cuentaModificada);
     }

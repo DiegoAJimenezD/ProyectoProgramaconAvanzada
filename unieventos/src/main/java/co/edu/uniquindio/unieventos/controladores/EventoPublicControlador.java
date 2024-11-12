@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/evento")
@@ -31,6 +32,18 @@ public class EventoPublicControlador {
     public ResponseEntity<MensajeDTO<List<ItemEventoDTO>>> listarEventos() {
         List<ItemEventoDTO> lista = eventoServicio.listarEventos();
         return ResponseEntity.ok(new MensajeDTO<>(false, lista));
+    }
+
+    @GetMapping("/obtener-tipos")
+    public ResponseEntity<MensajeDTO<List<Map<String, String>>>> showTiposEvento() {
+        List<Map<String, String>> listaTipos = eventoServicio.listarTipos();
+        return ResponseEntity.ok(new MensajeDTO<>(false, listaTipos));
+    }
+
+    @GetMapping("/obtener-ciudades")
+    public ResponseEntity<MensajeDTO<List<Map<String, String>>>> showCiudades() {
+        List<Map<String, String>> listaCiudades = eventoServicio.listarCiudades();
+        return ResponseEntity.ok(new MensajeDTO<>(false, listaCiudades));
     }
 
     @PostMapping("/filtrar")

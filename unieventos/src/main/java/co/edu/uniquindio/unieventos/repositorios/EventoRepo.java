@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface EventoRepo extends MongoRepository<Evento, String> {
     Optional<Evento> findById(String id);
 
-    List<Evento> findByNombreOrCiudadOrTipo(String nombre, String ciudad, String tipo);
+    List<Evento> findByEstado(String estado);
 
-
+    List<Evento> findByNombreIgnoreCaseLikeAndCiudadLikeAndTipoLikeAndEstado(String nombre, String ciudad, String tipo, String estado);
 }
