@@ -37,6 +37,12 @@ public class AutenticacionControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, token));
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<MensajeDTO<TokenDTO>> refreshToken(@RequestParam String token) throws Exception {
+        TokenDTO tokenDTO = cuentaServicio.refreshToken(token);
+        return ResponseEntity.ok(new MensajeDTO<>(false, tokenDTO));
+    }
+
     @PostMapping("/recuperar-contrasena")
     public ResponseEntity<MensajeDTO<String>> recuperarContrasena(@RequestParam String correo) throws Exception {
         cuentaServicio.enviarCodigoRecuperacionPassword(correo);
@@ -49,3 +55,4 @@ public class AutenticacionControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Contraseña cambiada exitosamente"));
     }
 }
+    

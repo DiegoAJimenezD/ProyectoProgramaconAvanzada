@@ -2,6 +2,7 @@ package co.edu.uniquindio.unieventos.controladores.cliente;
 
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
 import co.edu.uniquindio.unieventos.dto.Orden.CrearOrdenDTO;
+import co.edu.uniquindio.unieventos.dto.Orden.DetalleOrdenDTO;
 import co.edu.uniquindio.unieventos.dto.Orden.EditarOrdenDTO;
 import co.edu.uniquindio.unieventos.dto.Orden.InformacionOrdenDTO;
 import co.edu.uniquindio.unieventos.servicios.interfaces.OrdenServicio;
@@ -26,7 +27,7 @@ public class OrdenControlador {
     }
 
     @GetMapping("/informacion/{id}")
-    public ResponseEntity<MensajeDTO<InformacionOrdenDTO>> obtenerInformacionOrden(@PathVariable("id") String idOrden) throws Exception {
+    public ResponseEntity<MensajeDTO<DetalleOrdenDTO>> obtenerInformacionOrden(@PathVariable("id") String idOrden) throws Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, ordenServicio.obtenerInformacionOrden(idOrden)));
     }
 

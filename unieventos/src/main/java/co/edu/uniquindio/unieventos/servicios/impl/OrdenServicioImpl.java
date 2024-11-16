@@ -1,8 +1,6 @@
 package co.edu.uniquindio.unieventos.servicios.impl;
 
-import co.edu.uniquindio.unieventos.dto.Orden.CrearOrdenDTO;
-import co.edu.uniquindio.unieventos.dto.Orden.EditarOrdenDTO;
-import co.edu.uniquindio.unieventos.dto.Orden.InformacionOrdenDTO;
+import co.edu.uniquindio.unieventos.dto.Orden.*;
 import co.edu.uniquindio.unieventos.modelo.*;
 import co.edu.uniquindio.unieventos.modelo.enums.EstadoOrden;
 import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
@@ -90,20 +88,29 @@ public class OrdenServicioImpl implements OrdenServicio {
     }
 
     @Override
-    public InformacionOrdenDTO obtenerInformacionOrden(String idOrden) throws Exception {
+    public DetalleOrdenDTO obtenerInformacionOrden(String idOrden) throws Exception {
         Optional<Orden> optionalOrden = ordenRepo.findById(idOrden);
 
         if (optionalOrden.isPresent()) {
             Orden orden = optionalOrden.get();
             // Convertir la información de la orden a un DTO
-            return new InformacionOrdenDTO(
+            List<DetalleItemOrdenDTO> listaItems = new ArrayList<>();
+            for(DetalleOrden item : orden.getItems()) {
+                listaItems.add(new DetalleItemOrdenDTO(
+                        eventoRepo.findById(item.getIdEvento()).get(),
+                        item.getNombreLocalidad(),
+                        item.getPrecio(),
+                        item.getCantidad()
+                ));
+            }
+            return new DetalleOrdenDTO(
                     orden.getId(),
                     orden.getEstado().toString(),
                     orden.getIdCliente(),
                     orden.getIdCupon(),
                     orden.getFecha(),
                     orden.getCodigoPasarela(),
-                    orden.getItems(),
+                    listaItems,
                     orden.getTotal()
             );
         } else {

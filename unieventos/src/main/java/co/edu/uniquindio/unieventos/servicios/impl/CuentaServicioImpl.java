@@ -268,6 +268,12 @@ public class CuentaServicioImpl implements CuentaServicio {
         return new TokenDTO(jwtUtils.generarToken(cuenta.getEmail(), map));
     }
 
+    @Override
+    public TokenDTO refreshToken(String token) throws Exception {
+
+        return null;
+    }
+
     private boolean existeEmail(String email) {
         return cuentaRepo.findByEmail(email).isPresent();
     }
@@ -289,6 +295,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         return Map.of(
                 "rol", cuenta.getRol(),
                 "nombre", cuenta.getUsuario().getNombre(),
+                "email", cuenta.getEmail(),
                 "id", cuenta.getId()
         );
     }
