@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/administrador/cupon")
@@ -52,5 +53,11 @@ public class CuponControlador {
     public ResponseEntity<MensajeDTO<List<ItemCuponDTO>>> filtrarCupones(@Valid @RequestBody FiltroCuponDTO filtroCuponDTO) {
         List<ItemCuponDTO> listaFiltrada = cuponServicio.filtrarCupones(filtroCuponDTO);
         return ResponseEntity.ok(new MensajeDTO<>(false, listaFiltrada));
+    }
+
+    @GetMapping("/obtener-tipos")
+    public ResponseEntity<MensajeDTO<List<Map<String, String>>>> showTiposCupon() {
+        List<Map<String, String>> listaTipos = cuponServicio.listarTipos();
+        return ResponseEntity.ok(new MensajeDTO<>(false, listaTipos));
     }
 }
