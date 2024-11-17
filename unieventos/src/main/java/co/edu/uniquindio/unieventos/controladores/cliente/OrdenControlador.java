@@ -2,14 +2,24 @@ package co.edu.uniquindio.unieventos.controladores.cliente;
 
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
 import co.edu.uniquindio.unieventos.dto.Orden.CrearOrdenDTO;
+import co.edu.uniquindio.unieventos.dto.Orden.DetalleOrdenDTO;
 import co.edu.uniquindio.unieventos.dto.Orden.EditarOrdenDTO;
 import co.edu.uniquindio.unieventos.dto.Orden.InformacionOrdenDTO;
 import co.edu.uniquindio.unieventos.servicios.interfaces.OrdenServicio;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.mercadopago.resources.preference.Preference;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +36,7 @@ public class OrdenControlador {
     }
 
     @GetMapping("/informacion/{id}")
-    public ResponseEntity<MensajeDTO<InformacionOrdenDTO>> obtenerInformacionOrden(@PathVariable("id") String idOrden) throws Exception {
+    public ResponseEntity<MensajeDTO<DetalleOrdenDTO>> obtenerInformacionOrden(@PathVariable("id") String idOrden) throws Exception {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, ordenServicio.obtenerInformacionOrden(idOrden)));
     }
 
@@ -55,5 +65,25 @@ public class OrdenControlador {
     @PostMapping("/notificacion-pago")
     public void recibirNotificacionMercadoPago(@RequestBody Map<String, Object> requestBody) {
         ordenServicio.recibirNotificacionMercadoPago(requestBody);
+    }
+
+    @GetMapping(value = "/qr/{barcode}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> generateQRCode(@PathVariable("barcode") String id) throws Exception {
+        QRCodeWriter barcodeWriter = new QRCodeWriter();
+        DetalleOrdenDTO orden = ordenServicio.obtenerInformacionOrden(id);
+        BitMatrix bitMatrix = barcodeWriter.encode(orden.toString(), BarcodeFormat.QR_CODE, 500, 500);
+
+        // Convertir la imagen a un array de bytes
+        BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", baos);
+        byte[] imageBytes = baos.toByteArray();
+
+        // Crear respuesta con la imagen
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(imageBytes);
     }
 }
