@@ -5,10 +5,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record InformacionEventoDTO(
         @NotBlank String id, // No puede ser nulo ni vacío
         @NotBlank String nombre, // No puede ser nulo ni vacío
+        @NotBlank String descripcion,
         @NotBlank @Pattern(regexp = "^(DEPORTE|CONCIERTO|CULTURAL|MODA|BELLEZA)$") String tipoEvento,
 // Debe ser uno de los tipos permitidos
         @NotBlank String ciudad, // No puede ser nulo ni vacío

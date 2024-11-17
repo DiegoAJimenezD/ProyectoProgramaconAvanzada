@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 public record ItemCuponDTO(
+        @NotBlank String id,
         @DecimalMin(value = "0.0", inclusive = false) float descuento, // Debe ser mayor que 0
         @NotNull LocalDateTime fechaVencimiento, // No puede ser nulo
         @NotBlank String codigo, // No puede ser nulo ni vacío

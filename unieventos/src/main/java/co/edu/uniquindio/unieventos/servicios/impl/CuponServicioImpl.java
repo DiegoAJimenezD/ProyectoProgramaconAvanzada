@@ -4,15 +4,14 @@ import co.edu.uniquindio.unieventos.dto.Cupon.*;
 import co.edu.uniquindio.unieventos.modelo.Cupon;
 import co.edu.uniquindio.unieventos.modelo.enums.EstadoCupon;
 import co.edu.uniquindio.unieventos.modelo.enums.TipoCupon;
+import co.edu.uniquindio.unieventos.modelo.enums.TipoEvento;
 import co.edu.uniquindio.unieventos.repositorios.CuponRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.CuponServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -110,6 +109,7 @@ public class CuponServicioImpl implements CuponServicio {
         //Recorremos la lista de cuentas y por cada uno creamos un DTO y lo agregamos a la lista
         for (Cupon cupon : cupones) {
             items.add(new ItemCuponDTO(
+                    cupon.getId(),
                     cupon.getDescuento(),
                     cupon.getFechaVencimiento(),
                     cupon.getCodigo(),
@@ -152,6 +152,7 @@ public class CuponServicioImpl implements CuponServicio {
         //Recorremos la lista de cuentas y por cada uno creamos un DTO y lo agregamos a la lista
         for (Cupon cupon : cupones) {
             items.add(new ItemCuponDTO(
+                    cupon.getId(),
                     cupon.getDescuento(),
                     cupon.getFechaVencimiento(),
                     cupon.getCodigo(),
@@ -161,6 +162,18 @@ public class CuponServicioImpl implements CuponServicio {
             ));
         }
         return items;
+    }
+
+    @Override
+    public List<Map<String, String>> listarTipos() {
+        List<Map<String, String>> tipos = new ArrayList<>();
+        for (TipoCupon tipo : TipoCupon.values()) {
+            Map<String, String> tipoMap = new HashMap<>();
+            tipoMap.put("value", tipo.name());
+            tipoMap.put("nombre", tipo.getNombreTipoCupon());
+            tipos.add(tipoMap);
+        }
+        return tipos;
     }
 
 

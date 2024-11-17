@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/administrador/evento")
@@ -60,5 +61,11 @@ public class EventoControlador {
         String enlace = imagenServicio.subirImagen(subirImagenEventoDTO.imagen());
         eventoServicio.subirImagenEvento(subirImagenEventoDTO, enlace);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Imagen cargada exitosamente"));
+    }
+
+    @GetMapping("/obtener-tipos")
+    public ResponseEntity<MensajeDTO<List<Map<String, String>>>> showTiposEvento() {
+        List<Map<String, String>> listaTipos = eventoServicio.listarTipos();
+        return ResponseEntity.ok(new MensajeDTO<>(false, listaTipos));
     }
 }

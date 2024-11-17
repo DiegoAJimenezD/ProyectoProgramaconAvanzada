@@ -3,6 +3,7 @@ package co.edu.uniquindio.unieventos.servicios.interfaces;
 import co.edu.uniquindio.unieventos.dto.Cupon.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CuponServicio {
 
@@ -27,4 +28,5 @@ public interface CuponServicio {
     // Metodo para filtrar cupones segun criterios
     List<ItemCuponDTO> filtrarCupones(FiltroCuponDTO filtroCuponDTO);
 
+    List<Map<String, String>> listarTipos();
 }

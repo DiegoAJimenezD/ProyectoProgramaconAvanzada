@@ -85,6 +85,7 @@ public class EventoServicioImpl implements EventoServicio {
             return new InformacionEventoDTO(
                     evento.getId(),
                     evento.getNombre(),
+                    evento.getDescripcion(),
                     evento.getTipo().getNombreTipoEvento(),
                     evento.getCiudad().getNombreCiudad(),
                     evento.getFecha(),
