@@ -95,7 +95,7 @@ public class OrdenServicioImpl implements OrdenServicio {
             Orden orden = optionalOrden.get();
             // Convertir la información de la orden a un DTO
             List<DetalleItemOrdenDTO> listaItems = new ArrayList<>();
-            for(DetalleOrden item : orden.getItems()) {
+            for (DetalleOrden item : orden.getItems()) {
                 listaItems.add(new DetalleItemOrdenDTO(
                         eventoRepo.findById(item.getIdEvento()).get(),
                         item.getNombreLocalidad(),
@@ -229,9 +229,9 @@ public class OrdenServicioImpl implements OrdenServicio {
 
         // Configurar las urls de retorno de la pasarela (Frontend)
         PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                .success(servidor + "/api/orden/success")
-                .failure(servidor + "/api/orden/failure")
-                .pending(servidor + "/api/orden/pending")
+                .success(servidor + "/api/cliente/orden/success")
+                .failure(servidor + "/api/cliente/orden/failure")
+                .pending(servidor + "/api/cliente/orden/pending")
                 .build();
 
         if (ordenGuardada.getId() == null) {
@@ -243,7 +243,7 @@ public class OrdenServicioImpl implements OrdenServicio {
                 .backUrls(backUrls)
                 .items(itemsPasarela)
                 .metadata(Map.of("id_orden", ordenGuardada.getId()))
-                .notificationUrl(servidor + "/api/orden/notificacion-pago")
+                .notificationUrl(servidor + "/api/cliente/orden/notificacion-pago")
                 .build();
 
         // Crear la preferencia en la pasarela de MercadoPago

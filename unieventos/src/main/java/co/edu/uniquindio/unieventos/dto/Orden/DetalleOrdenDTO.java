@@ -1,6 +1,5 @@
 package co.edu.uniquindio.unieventos.dto.Orden;
 
-import co.edu.uniquindio.unieventos.modelo.DetalleOrden;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

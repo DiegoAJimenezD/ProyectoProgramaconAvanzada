@@ -8,6 +8,8 @@ public record AgregarItemCarritoDTO(
         @NotNull String id,
         @NotBlank String idEvento,
         @NotBlank String localidad,
-        @Positive int cantidad
+        @Positive int cantidad,
+        @Positive float precio
+
 ) {
 }

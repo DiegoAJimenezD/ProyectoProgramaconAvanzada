@@ -1,6 +1,5 @@
 package co.edu.uniquindio.unieventos.dto.Carrito;
 
-import co.edu.uniquindio.unieventos.modelo.DetalleCarrito;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
@@ -11,6 +10,6 @@ import java.util.List;
 public record InformacionCarritoDTO(
         @NotNull LocalDateTime fecha,
         @NotBlank @Length(max = 36) String idUsuario,
-        @NotNull List<DetalleCarrito> items
+        @NotNull List<DetalleItemCarritoDTO> items
 ) {
 }
