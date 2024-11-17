@@ -90,7 +90,9 @@ public class EventoServicioImpl implements EventoServicio {
                     evento.getCiudad().getNombreCiudad(),
                     evento.getFecha(),
                     evento.getDireccion(),
-                    evento.getImagenPortada()
+                    evento.getImagenPortada(),
+                    evento.getImagenLocalidades(),
+                    evento.getLocalidades()
             );
         } else {
             throw new Exception("Evento no encontrado");

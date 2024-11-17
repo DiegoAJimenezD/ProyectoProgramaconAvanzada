@@ -23,4 +23,6 @@ public interface CuentaServicio {
 
     TokenDTO iniciarSesion(LoginDTO loginDTO) throws Exception;
 
+    TokenDTO refreshToken(String token) throws Exception;
+
 }

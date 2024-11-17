@@ -12,4 +12,5 @@ public interface OrdenRepo extends MongoRepository<Orden, String> {
     Optional<Orden> findById(String id);
 
     List<Orden> findByIdCliente(String idCliente);
+
 }

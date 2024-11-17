@@ -4,6 +4,7 @@ import co.edu.uniquindio.unieventos.dto.Carrito.*;
 import co.edu.uniquindio.unieventos.modelo.Carrito;
 import co.edu.uniquindio.unieventos.modelo.DetalleCarrito;
 import co.edu.uniquindio.unieventos.repositorios.CarritoRepo;
+import co.edu.uniquindio.unieventos.repositorios.EventoRepo;
 import co.edu.uniquindio.unieventos.servicios.interfaces.CarritoServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,14 @@ import java.util.Optional;
 public class CarritoServicioImpl implements CarritoServicio {
 
     private final CarritoRepo carritoRepo;
+    private final EventoRepo eventoRepo;
 
     @Override
     public String crearCarrito(CrearCarritoDTO carritoDTO) throws Exception {
+        Optional<Carrito> optionalCarrito = carritoRepo.findByIdCuenta(carritoDTO.idUsuario());
+        if (optionalCarrito.isPresent()) {
+            throw new Exception("El carrito ya existe");
+        }
         Carrito nuevoCarrito = new Carrito();
         nuevoCarrito.setIdCuenta(carritoDTO.idUsuario());
         nuevoCarrito.setFecha(LocalDateTime.now());
@@ -45,6 +51,7 @@ public class CarritoServicioImpl implements CarritoServicio {
             DetalleCarrito nuevoItem = new DetalleCarrito();
             nuevoItem.setIdEvento(itemCarritoDTO.idEvento());
             nuevoItem.setCantidad(itemCarritoDTO.cantidad());
+            nuevoItem.setPrecio(itemCarritoDTO.precio());
             nuevoItem.setNombreLocalidad(itemCarritoDTO.localidad());
 
             List<DetalleCarrito> items = new ArrayList<>();
@@ -137,10 +144,19 @@ public class CarritoServicioImpl implements CarritoServicio {
         if (optionalCarrito.isPresent()) {
             Carrito carrito = optionalCarrito.get();
             //Retornamos la información de lel carrito del usuario
+            List<DetalleItemCarritoDTO> listaItems = new ArrayList<>();
+            for (DetalleCarrito item : carrito.getItems()) {
+                listaItems.add(new DetalleItemCarritoDTO(
+                        eventoRepo.findById(item.getIdEvento()).get(),
+                        item.getNombreLocalidad(),
+                        item.getPrecio(),
+                        item.getCantidad()
+                ));
+            }
             return new InformacionCarritoDTO(
                     carrito.getFecha(),
                     carrito.getIdCuenta(),
-                    carrito.getItems()
+                    listaItems
             );
         } else {
             throw new Exception("Carrito no encontrado");
