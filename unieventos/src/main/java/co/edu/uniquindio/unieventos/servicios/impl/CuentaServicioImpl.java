@@ -123,6 +123,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         cuentaRepo.save(cuentaModificada);
     }
 
+    @Override
     public void eliminarCuenta(String id) throws Exception {
 
         //Buscamos la cuenta del usuario que se quiere eliminar

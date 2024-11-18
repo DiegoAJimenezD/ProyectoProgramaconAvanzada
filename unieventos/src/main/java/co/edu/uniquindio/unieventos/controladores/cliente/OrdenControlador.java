@@ -1,10 +1,7 @@
 package co.edu.uniquindio.unieventos.controladores.cliente;
 
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
-import co.edu.uniquindio.unieventos.dto.Orden.CrearOrdenDTO;
-import co.edu.uniquindio.unieventos.dto.Orden.DetalleOrdenDTO;
-import co.edu.uniquindio.unieventos.dto.Orden.EditarOrdenDTO;
-import co.edu.uniquindio.unieventos.dto.Orden.InformacionOrdenDTO;
+import co.edu.uniquindio.unieventos.dto.Orden.*;
 import co.edu.uniquindio.unieventos.servicios.interfaces.OrdenServicio;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -58,8 +55,8 @@ public class OrdenControlador {
     }
 
     @PostMapping("/realizar-pago")
-    public ResponseEntity<MensajeDTO<Preference>> realizarPago(@RequestParam("idOrden") String idOrden) throws Exception {
-        return ResponseEntity.ok().body(new MensajeDTO<>(false, ordenServicio.realizarPago(idOrden)));
+    public ResponseEntity<MensajeDTO<Preference>> realizarPago(@RequestBody RealizarPagoDTO realizarPagoDTO) throws Exception {
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, ordenServicio.realizarPago(realizarPagoDTO)));
     }
 
     @PostMapping("/notificacion-pago")

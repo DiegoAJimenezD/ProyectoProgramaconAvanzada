@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,7 @@ public class OrdenServicioImpl implements OrdenServicio {
     private final OrdenRepo ordenRepo;
     private final EventoRepo eventoRepo;
     private final EventoServicio eventoServicio;
-    private final String servidor = "https://df7b-189-50-209-152.ngrok-free.app";
+    private final String servidor = "https://app-unieventos-frontend-uq.web.app";
 
     @Override
     public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws Exception {
@@ -77,7 +79,7 @@ public class OrdenServicioImpl implements OrdenServicio {
         nuevaOrden.setEstado(EstadoOrden.ACTIVO);
         nuevaOrden.setIdCliente(crearOrdenDTO.idCliente());
         nuevaOrden.setIdCupon(crearOrdenDTO.idCupon());
-        nuevaOrden.setFecha(crearOrdenDTO.fecha());
+        nuevaOrden.setFecha(LocalDateTime.now());
         nuevaOrden.setCodigoPasarela(crearOrdenDTO.codigoPasarela());
         nuevaOrden.setItems(crearOrdenDTO.items());
         nuevaOrden.setTotal(crearOrdenDTO.total());
@@ -175,9 +177,9 @@ public class OrdenServicioImpl implements OrdenServicio {
     }
 
     @Override
-    public Preference realizarPago(String idOrden) throws Exception {
+    public Preference realizarPago(RealizarPagoDTO realizarPagoDTO) throws Exception {
 
-        Optional<Orden> ordenOptional = ordenRepo.findById(idOrden);
+        Optional<Orden> ordenOptional = ordenRepo.findById(realizarPagoDTO.idOrden());
         List<PreferenceItemRequest> itemsPasarela = new ArrayList<>();
 
         if (ordenOptional.isEmpty()) {
@@ -203,7 +205,6 @@ public class OrdenServicioImpl implements OrdenServicio {
 
             Evento eventoGuardado = eventoOptional.get();
             //Localidad localidad = eventoGuardado.getLocalidades().get(item.getNombreLocalidad());
-            Localidad localidad = eventoGuardado.getLocalidades().get(0);
 
             // Crear el item de la pasarela
             PreferenceItemRequest itemRequest =
@@ -212,16 +213,16 @@ public class OrdenServicioImpl implements OrdenServicio {
                             .title(eventoGuardado.getNombre())
                             //   .pictureUrl(eventoGuardado.getImagenPortada())
                             .pictureUrl("https://www.mercadopago.com/org-img/MP3/home/logomp3.gif")
-                            .categoryId(eventoGuardado.getTipo().name())
+                            .categoryId(eventoGuardado.getTipo().name() + "|" + item.getNombreLocalidad())
                             .quantity(item.getCantidad())
                             .currencyId("COP")
-                            .unitPrice(BigDecimal.valueOf(localidad.getPrecio()))
+                            .unitPrice(BigDecimal.valueOf(item.getPrecio()))
                             .build();
 
             itemsPasarela.add(itemRequest);
         }
         // Configurar las credenciales de MercadoPago
-        MercadoPagoConfig.setAccessToken("APP_USR-6852244274066081-102317-38f02c71de3f1dbf1913f9a6695c069e-1136948209");
+        MercadoPagoConfig.setAccessToken("APP_USR-431122875948856-111717-b340cbe7c3a9dbed83ade3a823d25074-2039524625");
 
         if (MercadoPagoConfig.getAccessToken() == null) {
             throw new Exception("Acces token invalido");
@@ -229,9 +230,9 @@ public class OrdenServicioImpl implements OrdenServicio {
 
         // Configurar las urls de retorno de la pasarela (Frontend)
         PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                .success(servidor + "/api/cliente/orden/success")
-                .failure(servidor + "/api/cliente/orden/failure")
-                .pending(servidor + "/api/cliente/orden/pending")
+                .success(servidor + "/pago/success")
+                .failure(servidor + "/pago/failure")
+                .pending(servidor + "/pago//pending")
                 .build();
 
         if (ordenGuardada.getId() == null) {
@@ -243,7 +244,7 @@ public class OrdenServicioImpl implements OrdenServicio {
                 .backUrls(backUrls)
                 .items(itemsPasarela)
                 .metadata(Map.of("id_orden", ordenGuardada.getId()))
-                .notificationUrl(servidor + "/api/cliente/orden/notificacion-pago")
+                .notificationUrl("https://backend-m334.onrender.com//api/cliente/orden/notificacion-pago")
                 .build();
 
         // Crear la preferencia en la pasarela de MercadoPago
