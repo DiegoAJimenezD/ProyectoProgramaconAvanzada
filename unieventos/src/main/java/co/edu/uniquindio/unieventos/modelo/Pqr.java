@@ -28,5 +28,5 @@ public class Pqr {
     private LocalDateTime fechaCreacion; // Fecha de creación del PQRS
     private LocalDateTime fechaRespuesta; // Fecha en que se dio respuesta
     private String respuesta; // Respuesta a la solicitud
-    private String idCliente; // Referencia al cliente que realizó la solicitud
+    private String idCuenta; // Referencia al cliente que realizó la solicitud
 }

@@ -1,11 +1,13 @@
 package co.edu.uniquindio.unieventos.servicios.impl;
 
+import co.edu.uniquindio.unieventos.dto.Cupon.ItemCuponDTO;
 import co.edu.uniquindio.unieventos.dto.Email.EmailDTO;
 import co.edu.uniquindio.unieventos.dto.Pqr.CambiarEstadoPqrDTO;
 import co.edu.uniquindio.unieventos.dto.Pqr.CrearPqrDTO;
 import co.edu.uniquindio.unieventos.dto.Pqr.InformacionPqrDTO;
 import co.edu.uniquindio.unieventos.dto.Pqr.ResponderPqrDTO;
 import co.edu.uniquindio.unieventos.modelo.Cuenta;
+import co.edu.uniquindio.unieventos.modelo.Cupon;
 import co.edu.uniquindio.unieventos.modelo.Pqr;
 import co.edu.uniquindio.unieventos.modelo.enums.EstadoPqr;
 import co.edu.uniquindio.unieventos.modelo.enums.TipoPqr;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,7 +41,7 @@ public class PqrServicioImpl implements PqrServicio {
         nuevaPqr.setDescripcion(pqrDTO.descripcion());
         nuevaPqr.setEstado(EstadoPqr.EN_PROCESO);
         nuevaPqr.setFechaCreacion(LocalDateTime.now());
-        nuevaPqr.setIdCliente(pqrDTO.idCliente());
+        nuevaPqr.setIdCuenta(pqrDTO.idCuenta());
 
         // Guardamos el PQRS en la base de datos
         Pqr pqrCreada = pqrRepo.save(nuevaPqr);
@@ -46,11 +50,11 @@ public class PqrServicioImpl implements PqrServicio {
         String contenido = "Nuestro equipo está revisando su solicitud y se pondrá en contacto con usted a la brevedad para brindarle una respuesta.\n\n "
                 + "Si tiene alguna pregunta o necesita asistencia adicional, no dude en responder a este correo electrónico.";
 
-        Optional<Cuenta> optionalCuenta = cuentaRepo.findById(pqrCreada.getIdCliente());
+        Optional<Cuenta> optionalCuenta = cuentaRepo.findById(pqrCreada.getIdCuenta());
 
         //Si no se encontró la cuenta del usuario, lanzamos una excepción
         if (optionalCuenta.isEmpty()) {
-            throw new Exception("No se encontró el usuario con el id " + pqrCreada.getIdCliente());
+            throw new Exception("No se encontró el usuario con el id " + pqrCreada.getIdCuenta());
         }
 
         //Obtenemos la cuenta del usuario a modificar y actualizamos sus datos
@@ -111,7 +115,7 @@ public class PqrServicioImpl implements PqrServicio {
                     pqr.getFechaCreacion(),
                     pqr.getFechaRespuesta(),
                     pqr.getRespuesta(),
-                    pqr.getIdCliente()
+                    pqr.getIdCuenta()
             );
         } else {
             throw new Exception("PQR no encontrada");
@@ -127,5 +131,28 @@ public class PqrServicioImpl implements PqrServicio {
         } else {
             throw new Exception("PQR no encontrada");
         }
+    }
+
+    @Override
+    public List<InformacionPqrDTO> listarPqr() {
+        List<Pqr> pqr = pqrRepo.findAll();
+
+        //Creamos una lista de DTOs
+        List<InformacionPqrDTO> items = new ArrayList<>();
+
+        //Recorremos la lista de cuentas y por cada uno creamos un DTO y lo agregamos a la lista
+        for (Pqr pqr1 : pqr) {
+            items.add(new InformacionPqrDTO(
+                    pqr1.getId(),
+                    pqr1.getTipo().toString(),
+                    pqr1.getDescripcion(),
+                    pqr1.getEstado().toString(),
+                    pqr1.getFechaCreacion(),
+                    pqr1.getFechaRespuesta(),
+                    pqr1.getRespuesta(),
+                    pqr1.getIdCuenta()
+            ));
+        }
+        return items;
     }
 }
