@@ -15,6 +15,7 @@ public record EditarEventoDTO(
         @NotBlank @Pattern(regexp = "^(DEPORTE|CONCIERTO|CULTURAL|MODA|BELLEZA)$") String tipoEvento,
 // Debe ser uno de los tipos permitidos
         @NotBlank String direccion, // No puede ser nulo ni vacío
+        @NotBlank String descripcion,
         @NotBlank String ciudad, // No puede ser nulo ni vacío
         List<Localidad> localidades,
         String imagenPortada,

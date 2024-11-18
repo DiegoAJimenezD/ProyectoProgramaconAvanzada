@@ -30,6 +30,7 @@ public class EventoServicioImpl implements EventoServicio {
                 crearEventoDTO.localidades()
         );
         nuevoEvento.setDireccion(crearEventoDTO.direccion());
+        nuevoEvento.setDescripcion(crearEventoDTO.descripcion());
         nuevoEvento.setCiudad(Ciudad.valueOf(crearEventoDTO.ciudad()));
         nuevoEvento.setFecha(crearEventoDTO.fecha());
         nuevoEvento.setTipo(TipoEvento.valueOf(crearEventoDTO.tipoEvento()));

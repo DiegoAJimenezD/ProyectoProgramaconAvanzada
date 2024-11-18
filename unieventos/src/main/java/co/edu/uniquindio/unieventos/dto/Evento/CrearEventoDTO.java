@@ -14,6 +14,7 @@ public record CrearEventoDTO(
         @NotNull @Future LocalDateTime fecha, // No puede ser nulo y debe estar en el futuro
         @NotBlank String tipoEvento, // No puede ser nulo ni vacío
         @NotBlank String direccion, // No puede ser nulo ni vacío
+        @NotBlank String descripcion,
         List<Localidad> localidades,
         String imagenPortada,
         String imagenLocalidades

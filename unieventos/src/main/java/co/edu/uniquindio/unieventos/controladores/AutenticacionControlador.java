@@ -44,8 +44,8 @@ public class AutenticacionControlador {
     }
 
     @PostMapping("/recuperar-contrasena")
-    public ResponseEntity<MensajeDTO<String>> recuperarContrasena(@RequestParam String correo) throws Exception {
-        cuentaServicio.enviarCodigoRecuperacionPassword(correo);
+    public ResponseEntity<MensajeDTO<String>> recuperarContrasena(@RequestParam String email) throws Exception {
+        cuentaServicio.enviarCodigoRecuperacionPassword(email);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Se ha enviado un código de recuperación a tu correo"));
     }
 
@@ -54,5 +54,7 @@ public class AutenticacionControlador {
         cuentaServicio.cambiarPassword(cambiarPasswordDTO);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Contraseña cambiada exitosamente"));
     }
+
+
 }
     
