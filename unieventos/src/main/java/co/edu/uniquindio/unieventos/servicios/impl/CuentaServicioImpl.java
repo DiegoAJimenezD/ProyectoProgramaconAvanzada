@@ -239,12 +239,39 @@ public class CuentaServicioImpl implements CuentaServicio {
             throw new Exception("La cuenta no existe");
         }
         Cuenta cuentaModificada = optionalCuenta.get();
-//        if(cuentaModificada.getCodigoValidacionRegistro() != null){
-//            if (cuentaModificada.getCodigoValidacionRegistro().getFecha().range(LocalDateTime.now().format()))
-//        }
-        cuentaModificada.setPassword(encriptarPassword(cambiarPasswordDTO.password()));
-        cuentaModificada.setEstado(EstadoCuenta.ACTIVO);
-        cuentaRepo.save(cuentaModificada);
+        boolean isTime1 = true;
+        boolean isTime2 = true;
+
+
+        if(cuentaModificada.getCodigoValidacionRegistro() != null){
+                LocalDateTime fechaGuardada = cuentaModificada.getCodigoValidacionRegistro().getFecha();
+                LocalDateTime fechaLimite = fechaGuardada.plusMinutes(15);
+
+                if (LocalDateTime.now().isAfter(fechaLimite)) {
+                    isTime1 = false;
+                } else {
+                    cuentaModificada.setPassword(encriptarPassword(cambiarPasswordDTO.password()));
+                    cuentaModificada.setEstado(EstadoCuenta.ACTIVO);
+                    cuentaRepo.save(cuentaModificada);
+                }
+        }
+
+        if(cuentaModificada.getCodigoValidacionPassword() != null){
+            LocalDateTime fechaGuardada = cuentaModificada.getCodigoValidacionPassword().getFecha();
+            LocalDateTime fechaLimite = fechaGuardada.plusMinutes(15);
+
+            if (LocalDateTime.now().isAfter(fechaLimite)) {
+                isTime2 = false;
+            } else {
+                cuentaModificada.setPassword(encriptarPassword(cambiarPasswordDTO.password()));
+                cuentaModificada.setEstado(EstadoCuenta.ACTIVO);
+                cuentaRepo.save(cuentaModificada);
+            }
+        }
+
+        if(!(isTime1 || isTime2)){
+            throw new Exception("Ya pasaron 15 minutos");
+        }
     }
 
     @Override

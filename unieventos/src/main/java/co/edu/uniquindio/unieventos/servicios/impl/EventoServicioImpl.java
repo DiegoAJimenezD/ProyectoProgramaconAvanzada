@@ -35,6 +35,8 @@ public class EventoServicioImpl implements EventoServicio {
         nuevoEvento.setFecha(crearEventoDTO.fecha());
         nuevoEvento.setTipo(TipoEvento.valueOf(crearEventoDTO.tipoEvento()));
         nuevoEvento.setEstado(EstadoEvento.ACTIVO);
+        nuevoEvento.setImagenPortada(crearEventoDTO.imagenPortada());
+        nuevoEvento.setImagenLocalidades(crearEventoDTO.imagenLocalidades());
 
         //nuevoEvento.setImagenPortada(imagenServicio.subirImagen(crearEventoDTO.multipartFile()));
         // Guardamos el nuevo evento en la base de datos
@@ -54,7 +56,12 @@ public class EventoServicioImpl implements EventoServicio {
             eventoModificado.setFecha(editarEventoDTO.fecha());
             eventoModificado.setDireccion(editarEventoDTO.direccion());
             eventoModificado.setTipo(TipoEvento.valueOf(editarEventoDTO.tipoEvento()));
-
+            if(!editarEventoDTO.imagenLocalidades().equals("")){
+                eventoModificado.setImagenLocalidades(editarEventoDTO.imagenLocalidades());
+            }
+            if(!editarEventoDTO.imagenPortada().equals("")) {
+                eventoModificado.setImagenPortada(editarEventoDTO.imagenPortada());
+            }
             // Guardamos los cambios en el evento
             eventoRepo.save(eventoModificado);
         } else {
