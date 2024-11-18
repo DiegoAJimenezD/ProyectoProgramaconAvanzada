@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unieventos.servicios.interfaces;
 
-import co.edu.uniquindio.unieventos.dto.Orden.CrearOrdenDTO;
-import co.edu.uniquindio.unieventos.dto.Orden.DetalleOrdenDTO;
-import co.edu.uniquindio.unieventos.dto.Orden.EditarOrdenDTO;
-import co.edu.uniquindio.unieventos.dto.Orden.InformacionOrdenDTO;
+import co.edu.uniquindio.unieventos.dto.Orden.*;
 import com.mercadopago.resources.preference.Preference;
 
 import java.util.List;
@@ -13,7 +10,7 @@ import java.util.Map;
 public interface OrdenServicio {
 
     // Metodo para realizar un pago basado en el ID de la orden
-    Preference realizarPago(String idOrden) throws Exception;
+    Preference realizarPago(RealizarPagoDTO realizarPagoDTO) throws Exception;
 
     // Metodo para recibir notificaciones de MercadoPago
     void recibirNotificacionMercadoPago(Map<String, Object> request);
