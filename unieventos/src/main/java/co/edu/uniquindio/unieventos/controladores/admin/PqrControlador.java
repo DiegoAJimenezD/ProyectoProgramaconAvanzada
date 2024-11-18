@@ -1,6 +1,7 @@
 package co.edu.uniquindio.unieventos.controladores.admin;
 
 import co.edu.uniquindio.unieventos.dto.Cuenta.CrearCuentaDTO;
+import co.edu.uniquindio.unieventos.dto.Cuenta.InformacionCuentaDTO;
 import co.edu.uniquindio.unieventos.dto.Cupon.ItemCuponDTO;
 import co.edu.uniquindio.unieventos.dto.MensajeDTO;
 import co.edu.uniquindio.unieventos.dto.Pqr.CambiarEstadoPqrDTO;
@@ -44,6 +45,12 @@ public class PqrControlador {
     public ResponseEntity<MensajeDTO<List<InformacionPqrDTO>>> listarPqrs() {
         List<InformacionPqrDTO> lista = pqrServicio.listarPqr();
         return ResponseEntity.ok(new MensajeDTO<>(false, lista));
+    }
+
+    @GetMapping("/obtener/{id}")
+    public ResponseEntity<MensajeDTO<InformacionPqrDTO>> obtenerInformacionPqr(@PathVariable String id) throws Exception {
+        InformacionPqrDTO info = pqrServicio.obtenerInformacionPqr(id);
+        return ResponseEntity.ok(new MensajeDTO<>(false, info));
     }
 
 }

@@ -41,7 +41,7 @@ public class PqrServicioImpl implements PqrServicio {
         nuevaPqr.setDescripcion(pqrDTO.descripcion());
         nuevaPqr.setEstado(EstadoPqr.EN_PROCESO);
         nuevaPqr.setFechaCreacion(LocalDateTime.now());
-        nuevaPqr.setIdCuenta(pqrDTO.idCuenta());
+        nuevaPqr.setIdCuenta(pqrDTO.idCliente());
 
         // Guardamos el PQRS en la base de datos
         Pqr pqrCreada = pqrRepo.save(nuevaPqr);
@@ -79,6 +79,18 @@ public class PqrServicioImpl implements PqrServicio {
 
             // Guardar la actualización del PQRS
             pqrRepo.save(pqr);
+            String contenido = "Estimado usuario,\n\n" +
+                    "Te informamos que hemos respondido a tu solicitud PQRS en el sistema de Unieventos.\n\n" +
+                    "Respuesta: " + pqr.getRespuesta() + "\n\n" +
+                    "Si tienes más preguntas o necesitas más información, no dudes en contactarnos.\n\n" +
+                    "Gracias por comunicarte con nosotros.\n" +
+                    "Atentamente,\n" +
+                    "El equipo de soporte de Unieventos";
+
+            // Enviar el correo
+            emailServicio.enviarCorreo(
+                    new EmailDTO("PQR - Unieventos", contenido, cuentaRepo.findById(pqr.getIdCuenta()).get().getEmail())
+            );
         } else {
             throw new Exception("PQR no encontrada");
         }
